@@ -15,19 +15,19 @@ git clone https://github.com/testinlab/cocos-plugin.git
   将下载内容中的testin目录，复制到cocos2d-x或cocos2d-js引擎安装目录的external目录下；如果是使用了cocos2d-x或cocos2d-js 3.x版本引擎自动生成的项目，需要将testin目录拷贝至项目的相应子目录中。
 
 #### cocos2d-x 2.x版本
-  将testin目录复制到<cocos2d-x安装目录>/external/下
+  将testin目录复制到{cocos2d-x安装目录}/external/下
 
 #### cocos2d-x 3.x版本
  - 使用项目目录中的引擎代码编译
-  因为引擎的核心源码会拷贝至项目目录下，需要将testin的源码同被编译的引擎源码放到一起，所以需要将testin目录拷贝至 <项目目录>/cocos2d/external/目录下。如: /cocos2d-x-3.2/projects/myCocosProject/cocos2d/external/
+  因为引擎的核心源码会拷贝至项目目录下，需要将testin的源码同被编译的引擎源码放到一起，所以需要将testin目录拷贝至 {项目目录}/cocos2d/external/目录下。如: /cocos2d-x-3.2/projects/myCocosProject/cocos2d/external/
  - 使用引擎安装目录中的代码编译
-  将testin目录拷贝至<cocos2d-x安装目录>/external/目录下
+  将testin目录拷贝至{cocos2d-x安装目录}/external/目录下
 
 #### cocos2d-js 3.x版本
  - 使用项目目录中的引擎代码编译
-  因为引擎的核心源码会拷贝至项目目录下，需要将testin的源码同被编译的引擎源码放到一起，所以需要将testin目录拷贝至 <项目目录>/frameworks/js-bindings/cocos2d-x/external/目录下。如: /cocos2d-js-3.0/projects/myCocosProject/frameworks/js-bindings/cocos2d-x/external/
+  因为引擎的核心源码会拷贝至项目目录下，需要将testin的源码同被编译的引擎源码放到一起，所以需要将testin目录拷贝至 {项目目录}/frameworks/js-bindings/cocos2d-x/external/目录下。如: /cocos2d-js-3.0/projects/myCocosProject/frameworks/js-bindings/cocos2d-x/external/
  - 使用引擎安装目录中的代码编译
-  将testin目录拷贝至<cocos2d-js安装目录>/frameworks/js-bindings/cocos2d-x/external/目录下
+  将testin目录拷贝至{cocos2d-js安装目录}/frameworks/js-bindings/cocos2d-x/external/目录下
 
 ## 添加代码支持
 -----------
