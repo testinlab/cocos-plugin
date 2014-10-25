@@ -74,8 +74,7 @@ LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../cocos2d-x.2.2.3 \
 ```MK
 LOCAL_WHOLE_STATIC_LIBRARIES += cocos_extension_static
 ```
-
-  在make文件最后添加这一行：
+      在make文件最后添加这一行：
 ```MK
 $(call import-module,extensions)
 ```
