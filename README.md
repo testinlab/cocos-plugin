@@ -70,11 +70,11 @@ LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../cocos2d-x.2.2.3 \
 
  - ld错误
 
-  需要在编译时添加cocos extension模块，这一行需要同其他的LOCAL_WHOLE_STATIC_LIBRARIES命令放在一起
+  需要在编译时添加cocos extension模块
 ```MK
 LOCAL_WHOLE_STATIC_LIBRARIES += cocos_extension_static
 ```
-      在make文件最后添加这一行：
+
 ```MK
 $(call import-module,extensions)
 ```
