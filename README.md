@@ -57,5 +57,26 @@ $(call import-module,external/testin)
 ```
   
   现在可以编译你的游戏代码了，已经为你的游戏添加Testin手游自动化测试支持！
-  
+
+#### 常见问题
+ - 编译时找不到头文件"testin/testincc.h"
+
+  在make文件中添加头文件查找路径，将存放远吗testin目录的位置(external目录)添加到LOCAL_C_INCLUDES变量中，例如
+```MK
+LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../cocos2d-x.2.2.3 \
+    $(LOCAL_PATH)/../../cocos2d-x.2.2.3/cocos2dx \
+    $(LOCAL_PATH)/../../cocos2d-x.2.2.3/external
+```
+
+ - ld错误
+
+  需要在编译时添加cocos extension模块，这一行需要同其他的LOCAL_WHOLE_STATIC_LIBRARIES命令放在一起
+```MK
+LOCAL_WHOLE_STATIC_LIBRARIES += cocos_extension_static
+```
+
+  在make文件最后添加这一行：
+```MK
+$(call import-module,extensions)
+```
 
