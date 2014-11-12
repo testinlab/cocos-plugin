@@ -35,5 +35,5 @@ git clone https://github.com/testinlab/cocos-plugin.git
 
 ## 添加代码支持
 -----------
- - [手游自动化支持](autotest.md)
- - 崩溃收集支持（coming soon...）
+ - [手游自动化支持](autotest/README.md)
+ - [崩溃收集支持](crashhelper/README.md)
