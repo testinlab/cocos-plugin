@@ -2,7 +2,7 @@ LOCAL_PATH := $(call my-dir)
 
 include $(CLEAR_VARS)
 
-LOCAL_MODULE := testin_cocos2dx_support_static
+LOCAL_MODULE := testin_cocos2dx_autotest_static
 
 LOCAL_MODULE_FILENAME := libtestincc
 
