@@ -37,15 +37,17 @@ LOCAL_WHOLE_STATIC_LIBRARIES += testin_crash_helper_static
 $(call import-module,external/crashhelper) 
 ```
 
-![](./_doc_img/crash_cpp_1.jpg)
+<img src="./_doc_img/crash_cpp_1.jpg"/>
 
 ###### iOS
 
 在XCode中，将crashhelper目录下的源文件和头文件加入到cocos2d_libs子项目中，如图
-![](./_doc_img/ios_cpp_1.png)
+
+<img src="./_doc_img/ios_cpp_1.png"/>
 
 另外需要将源文件同时添加到target的Compile Sources中，否则会报ld错误。可以在如下图所示的设置中查看是否添加，如果没有可以点下面的“+”按钮添加
-![](./_doc_img/ios_cpp_2.png)
+
+<img src="./_doc_img/ios_cpp_2.png"/>
 
 #### Lua
 -----------
@@ -63,15 +65,17 @@ $(call import-module,external/crashhelper)
 $(call import-module,external/crashhelper/lua) 
 ```
 
-![](./_doc_img/crash_lua_1.jpg)
+<img src="./_doc_img/crash_lua_1.jpg"/>
 
 ###### iOS
 
 在XCode中，将crashhelper目录和lua子目录下的源文件和头文件加入到cocos2d_lua_bindings子项目中，如图
-![](./_doc_img/ios_lua_1.png)
+
+<img src="./_doc_img/ios_lua_1.png"/>
 
 另外需要将源文件同时添加到target的Compile Sources中，否则会报ld错误。可以在如下图所示的设置中查看是否添加，如果没有可以点下面的“+”按钮添加
-![](./_doc_img/ios_cpp_2.png)
+
+<img src="./_doc_img/ios_cpp_2.png"/>
 
 #### JavaScript
 -----------
@@ -89,15 +93,18 @@ $(call import-module,external/crashhelper)
 $(call import-module,external/crashhelper/js) 
 ```
 
-![](./_doc_img/crash_js_1.jpg)
+示例：
+
+<img src="./_doc_img/crash_js_1.jpg"/>
 
 ###### iOS
 
 在XCode中，将crashhelper目录和js子目录下的源文件和头文件加入到cocos2d_js_bindings子项目中，如图
-![](./_doc_img/ios_js_1.png)
+<img src="./_doc_img/ios_js_1.png"/>
 
 另外需要将源文件同时添加到target的Compile Sources中，否则会报ld错误。可以在如下图所示的设置中查看是否添加，如果没有可以点下面的“+”按钮添加
-![](./_doc_img/ios_cpp_2.png)
+
+<img src="./_doc_img/ios_cpp_2.png"/>
 
 
 ## <a name="setuserinfo"/>自定义用户信息
@@ -162,7 +169,9 @@ LOCAL_C_INCLUDES += $(LOCAL_PATH)/../../cocos2d/external
 TestinLuaExceptionHandler::registerLuaExceptionHandler();
 ```
 
-![](./_doc_img/crash_lua_2.jpg)
+示例：
+
+<img src="./_doc_img/crash_lua_2.jpg"/>
 
 - Lua脚本增加调用C++方法
 在Lua主程序的错误回调函数中，调用C++方法把错误传递给C++代码
@@ -185,7 +194,9 @@ function __G__TRACKBACK__(msg)
 end
 ```
 
-![](./_doc_img/crash_lua_3.jpg)
+示例：
+
+<img src="./_doc_img/crash_lua_3.jpg"/>
 
 #### <a name="jsexception"/>JavaScript错误收集
 -----------
@@ -207,7 +218,9 @@ void TestinJSExcetionHandler::registerJSExceptionHandler(JSContext *cx);
 TestinJSExcetionHandler::registerJSExceptionHandler(ScriptingCore::getInstance()->getGlobalContext());
 ```
 
-![](./_doc_img/crash_js_2.jpg)
+示例：
+
+<img src="./_doc_img/crash_js_2.jpg"/>
 
 
 
