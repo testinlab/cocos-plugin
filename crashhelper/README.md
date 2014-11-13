@@ -9,17 +9,17 @@
 - [自定义用户信息](#自定义用户信息)
 - [自定义错误](#自定义错误)
 - [脚本错误收集](#脚本错误收集)
-	- [Lua脚本错误收集](#Lua错误收集)
-	- [JavaScript脚本错误收集](#JavaScript错误收集)
+	- [Lua脚本错误收集](#lua错误收集)
+	- [JavaScript脚本错误收集](#javascript错误收集)
 
 ## 如何添加代码支持
 -----------
 
 请选择您的开发语言
 
-- [C++](#C++)
-- [Lua](#Lua)
-- [JavaScript](#JavaScript)
+- [C++](#c)
+- [Lua](#lua)
+- [JavaScript](#javascript)
 
 
 #### C++
