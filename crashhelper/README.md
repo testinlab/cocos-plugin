@@ -37,6 +37,8 @@ LOCAL_WHOLE_STATIC_LIBRARIES += testin_crash_helper_static
 $(call import-module,external/crashhelper) 
 ```
 
+示例图片：
+
 <img src="./_doc_img/crash_cpp_1.jpg"/>
 
 ###### iOS
@@ -64,6 +66,8 @@ LOCAL_WHOLE_STATIC_LIBRARIES += testin_crash_helper_lua
 $(call import-module,external/crashhelper) 
 $(call import-module,external/crashhelper/lua) 
 ```
+
+示例图片：
 
 <img src="./_doc_img/crash_lua_1.jpg"/>
 
@@ -93,7 +97,7 @@ $(call import-module,external/crashhelper)
 $(call import-module,external/crashhelper/js) 
 ```
 
-示例：
+示例图片：
 
 <img src="./_doc_img/crash_js_1.jpg"/>
 
@@ -194,7 +198,7 @@ function __G__TRACKBACK__(msg)
 end
 ```
 
-示例：
+示例图片：
 
 <img src="./_doc_img/crash_lua_3.jpg"/>
 
@@ -218,7 +222,7 @@ void TestinJSExcetionHandler::registerJSExceptionHandler(JSContext *cx);
 TestinJSExcetionHandler::registerJSExceptionHandler(ScriptingCore::getInstance()->getGlobalContext());
 ```
 
-示例：
+示例图片：
 
 <img src="./_doc_img/crash_js_2.jpg"/>
 
