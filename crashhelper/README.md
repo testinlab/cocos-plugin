@@ -6,11 +6,11 @@
 **要求的崩溃分析SDK版本：Android 1.7，或iOS 1.4**
 
 - [添加支持](#integration)
-- [自定义用户信息](#自定义用户信息)
-- [自定义错误](#自定义错误)
-- [脚本错误收集](#脚本错误收集)
-	- [Lua脚本错误收集](#lua错误收集)
-	- [JavaScript脚本错误收集](#javascript错误收集)
+- [自定义用户信息](#setuserinfo)
+- [自定义错误](#customize)
+- [脚本错误收集](#scriptexception)
+	- [Lua脚本错误收集](#luaexception)
+	- [JavaScript脚本错误收集](#jsexception)
 
 ## <a name="integration"/>如何添加代码支持
 -----------
@@ -100,7 +100,7 @@ $(call import-module,external/crashhelper/js)
 ![](./_doc_img/ios_cpp_2.jpg)
 
 
-## 自定义用户信息
+## <a name="setuserinfo"/>自定义用户信息
 -----------
 - 添加头文件
 在需要使用本插件的C++代码中添加头文件
@@ -121,7 +121,7 @@ TestinCrashHelper::setUserInfo("test user info");
 ```
 
 
-## 自定义错误
+## <a name="customize"/>自定义错误
 -----------
 - 添加头文件
 在需要使用本插件的C++代码中添加头文件
@@ -142,10 +142,10 @@ void TestinCrashHelper::reportException(int type, const char* reason, const char
 TestinCrashHelper::reportException(1, "test reason", "test message");
 ```
 
-## 脚本错误收集
+## <a name="scriptexception"/>脚本错误收集
 -----------
 
-#### Lua错误收集
+#### <a name="luaexception"/>Lua错误收集
 -----------
 - 添加头文件
 在初始化Lua引擎的cpp文件中添加头文件
@@ -187,7 +187,7 @@ end
 
 ![](./_doc_img/crash_lua_3.jpg)
 
-#### JavaScript错误收集
+#### <a name="jsexception"/>JavaScript错误收集
 -----------
 - 添加头文件
 在初始化JS引擎的cpp文件中添加头文件
