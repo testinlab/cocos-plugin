@@ -42,10 +42,10 @@ $(call import-module,external/crashhelper)
 ###### iOS
 
 在XCode中，将crashhelper目录下的源文件和头文件加入到cocos2d_libs子项目中，如图
-![](./_doc_img/ios_cpp_1.jpg)
+![](./_doc_img/ios_cpp_1.png)
 
 另外需要将源文件同时添加到target的Compile Sources中，否则会报ld错误。可以在如下图所示的设置中查看是否添加，如果没有可以点下面的“+”按钮添加
-![](./_doc_img/ios_cpp_2.jpg)
+![](./_doc_img/ios_cpp_2.png)
 
 #### Lua
 -----------
@@ -68,10 +68,10 @@ $(call import-module,external/crashhelper/lua)
 ###### iOS
 
 在XCode中，将crashhelper目录和lua子目录下的源文件和头文件加入到cocos2d_lua_bindings子项目中，如图
-![](./_doc_img/ios_lua_1.jpg)
+![](./_doc_img/ios_lua_1.png)
 
 另外需要将源文件同时添加到target的Compile Sources中，否则会报ld错误。可以在如下图所示的设置中查看是否添加，如果没有可以点下面的“+”按钮添加
-![](./_doc_img/ios_cpp_2.jpg)
+![](./_doc_img/ios_cpp_2.png)
 
 #### JavaScript
 -----------
@@ -94,10 +94,10 @@ $(call import-module,external/crashhelper/js)
 ###### iOS
 
 在XCode中，将crashhelper目录和js子目录下的源文件和头文件加入到cocos2d_js_bindings子项目中，如图
-![](./_doc_img/ios_js_1.jpg)
+![](./_doc_img/ios_js_1.png)
 
 另外需要将源文件同时添加到target的Compile Sources中，否则会报ld错误。可以在如下图所示的设置中查看是否添加，如果没有可以点下面的“+”按钮添加
-![](./_doc_img/ios_cpp_2.jpg)
+![](./_doc_img/ios_cpp_2.png)
 
 
 ## <a name="setuserinfo"/>自定义用户信息
