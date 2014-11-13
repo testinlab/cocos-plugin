@@ -1,4 +1,4 @@
-cocos-plugin
+手游自动化测试插件
 ============
 
   Testin支持cocos引擎手游测试的插件集，支持cocos2d-x和cocos2d-js全版本游戏引擎，包括cocos2d-x 2.x、cocos2d-x 3.x、cocos2d-js 3.x。包含如下模块：
