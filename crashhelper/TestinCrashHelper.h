@@ -3,11 +3,11 @@
 
 
 
-#define EXCEPTION_TYPE_JAVA = 0;
-#define EXCEPTION_TYPE_CPP = 1;
-#define EXCEPTION_TYPE_OBJC = 2;
-#define EXCEPTION_TYPE_LUA = 3;
-#define EXCEPTION_TYPE_JS = 4;
+#define EXCEPTION_TYPE_JAVA 0
+#define EXCEPTION_TYPE_CPP 1
+#define EXCEPTION_TYPE_OBJC 2
+#define EXCEPTION_TYPE_LUA 3
+#define EXCEPTION_TYPE_JS 4
 
 class  TestinCrashHelper
 {
