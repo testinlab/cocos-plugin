@@ -1,5 +1,5 @@
-#ifndef __TESIN_CRASH_HELPER_H__	
-#define __TESIN_CRASH_HELPER_H__
+#ifndef __TESTIN_CRASH_HELPER_H__	
+#define __TESTIN_CRASH_HELPER_H__
 
 
 
@@ -11,11 +11,14 @@
 
 class  TestinCrashHelper
 {
+private:
+	static bool _initialed;
 public:
+	static void initTestinAgent(const char* appKey, const char* channel);
 	static void reportException(int type, const char* reason, const char* traceback);
 	static void setUserInfo(const char* userInfo);
 
 };
 
-#endif  // __TESIN_CRASH_HELPER_H__
+#endif  // __TESTIN_CRASH_HELPER_H__
 
