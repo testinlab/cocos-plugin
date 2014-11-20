@@ -224,7 +224,8 @@ void TestinCrashHelper::onActivityStop() {
 
 		env->CallStaticVoidMethod(clz, method, obj);
 	}
-#endif}
+#endif
+}
 
 
 
