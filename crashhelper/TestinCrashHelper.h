@@ -18,6 +18,11 @@ public:
 	static void reportException(int type, const char* reason, const char* traceback);
 	static void setUserInfo(const char* userInfo);
 
+public:
+	//for Android only, you can use these to functions instead of Java functions
+	static void onActivityStart();
+	static void onActivityStop();
+
 };
 
 #endif  // __TESTIN_CRASH_HELPER_H__

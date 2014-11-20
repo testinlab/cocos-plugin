@@ -19,6 +19,9 @@
 	#define AGENT_METHOD_EXCEPTION_PARAMETER "(ILjava/lang/String;Ljava/lang/String;)V"
 	#define AGENT_METHOD_USERINFO "setUserInfo"
 	#define AGENT_METHOD_USERINFO_PARAMETER "(Ljava/lang/String;)V"
+	#define AGENT_METHOD_ONSTART "onStart"
+	#define AGENT_METHOD_ONSTOP "onStop"
+	#define AGENT_NONE_PARAMETER "()V"
 	#define COCOS_ACTIVITY_CLASS "org/cocos2dx/lib/Cocos2dxActivity"
 	#define COCOS_ACTIVITY_METHOD_CONTEXT "getContext"
 	#define COCOS_ACTIVITY_METHOD_CONTEXT_PARAMETER "()Landroid/content/Context;"
@@ -152,6 +155,77 @@ void TestinCrashHelper::setUserInfo(const char* userInfo) {
 	[invocation invoke];
 #endif
 }
+
+
+void TestinCrashHelper::onActivityStart() {
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+	if (!_initialed) {
+		LOGD("agent is not initialed, abort");
+		return;
+	}
+
+	JavaVM* jvm = cocos2d::JniHelper::getJavaVM();
+	JNIEnv* env = NULL;
+	jvm->GetEnv((void**)&env, JNI_VERSION_1_4);
+
+	if (NULL == jvm || NULL == env) {
+		LOGE("Could not complete opertion because JavaVM or JNIEnv is null!");
+		return;
+	}
+	jvm->AttachCurrentThread(&env, 0);
+
+	jclass clz = env->FindClass(COCOS_ACTIVITY_CLASS);
+	jmethodID method = env->GetStaticMethodID(clz, COCOS_ACTIVITY_METHOD_CONTEXT, COCOS_ACTIVITY_METHOD_CONTEXT_PARAMETER);
+	jobject obj = (jobject) env->CallStaticObjectMethod(clz, method);
+	if (NULL == obj) {
+		LOGD("Could not find Cocos2dxActivity object!");
+		return;
+	} else {
+		LOGD("Found Cocos2dxActivity object!");
+		//will throw ClassNotFoundException if Testin crash sdk is not included
+		clz = env->FindClass(AGENT_CLASS);
+		//will throw NoSuchMethodException if Testin crash sdk is not included
+		method = env->GetStaticMethodID(clz, AGENT_METHOD_ONSTART, AGENT_NONE_PARAMETER);
+
+		env->CallStaticVoidMethod(clz, method, obj);
+	}
+#endif
+}
+
+void TestinCrashHelper::onActivityStop() {
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+	if (!_initialed) {
+		LOGD("agent is not initialed, abort");
+		return;
+	}
+
+	JavaVM* jvm = cocos2d::JniHelper::getJavaVM();
+	JNIEnv* env = NULL;
+	jvm->GetEnv((void**)&env, JNI_VERSION_1_4);
+
+	if (NULL == jvm || NULL == env) {
+		LOGE("Could not complete opertion because JavaVM or JNIEnv is null!");
+		return;
+	}
+	jvm->AttachCurrentThread(&env, 0);
+
+	jclass clz = env->FindClass(COCOS_ACTIVITY_CLASS);
+	jmethodID method = env->GetStaticMethodID(clz, COCOS_ACTIVITY_METHOD_CONTEXT, COCOS_ACTIVITY_METHOD_CONTEXT_PARAMETER);
+	jobject obj = (jobject) env->CallStaticObjectMethod(clz, method);
+	if (NULL == obj) {
+		LOGD("Could not find Cocos2dxActivity object!");
+		return;
+	} else {
+		LOGD("Found Cocos2dxActivity object!");
+		//will throw ClassNotFoundException if Testin crash sdk is not included
+		clz = env->FindClass(AGENT_CLASS);
+		//will throw NoSuchMethodException if Testin crash sdk is not included
+		method = env->GetStaticMethodID(clz, AGENT_METHOD_ONSTOP, AGENT_NONE_PARAMETER);
+
+		env->CallStaticVoidMethod(clz, method, obj);
+	}
+#endif}
+
 
 
 
