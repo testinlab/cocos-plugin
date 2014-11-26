@@ -125,7 +125,9 @@ void TestinTraverser::parseNodeAttr(tinyxml2::XMLDocument *doc, tinyxml2::XMLEle
 	TCMenuItem* item = dynamic_cast<TCMenuItem*>(node);
 	TCAtlasNode* atlas = dynamic_cast<TCAtlasNode*>(node);
 	TCScene* scene = dynamic_cast<TCScene*>(node);
+#if TESTIN_USING_CC_EXTENSION == 1
 	TCScale9Sprite* sprite9 = dynamic_cast<TCScale9Sprite*>(node);
+#endif
 	TCSpriteBatchNode* batch = dynamic_cast<TCSpriteBatchNode*>(node);
 #ifdef COCOS2D_CPP_3X
 	Label* label = dynamic_cast<Label*>(node);
@@ -243,9 +245,11 @@ void TestinTraverser::parseNodeAttr(tinyxml2::XMLDocument *doc, tinyxml2::XMLEle
 		if (labelAtlas != NULL) {
 			element->SetAttribute("text", labelAtlas->funcGetString());
 		}
+#if TESTIN_USING_CC_EXTENSION == 1
 	} else if (sprite9 != NULL) {
 		std::string sprite9Desc = descSprite9(sprite9);
 		element->SetAttribute("name", sprite9Desc.c_str());
+#endif
 	} else if (batch != NULL) {
 		TCTexture2D* texture = batch->getTexture();
 		if (texture != NULL) {
@@ -305,9 +309,11 @@ const char* TestinTraverser::baseClassName(TCNode* node) {
 	TCSpriteBatchNode* batch = dynamic_cast<TCSpriteBatchNode*>(node);
 	if (batch != NULL)
 		return "TCSpriteBatchNode";
+#if TESTIN_USING_CC_EXTENSION == 1
 	TCScale9Sprite* sprite9 = dynamic_cast<TCScale9Sprite*>(node);
 	if (sprite9 != NULL)
 		return "TCScale9Sprite";
+#endif
 #ifdef COCOS2D_CPP_3X
 	TCLabel* label = dynamic_cast<TCLabel*>(node);
 	if (label != NULL)
@@ -339,11 +345,13 @@ const std::string TestinTraverser::descSpriteFrame(TCNode* node) {
 		sprite->release();
 	}
 
+#if TESTIN_USING_CC_EXTENSION == 1
 	TCScale9Sprite* sprite9 = dynamic_cast<TCScale9Sprite*>(node);
 	if (sprite9 != NULL) {
 		std::string sprite9Desc = descSprite9(sprite9);
 		return sprite9Desc;
 	}
+#endif
 
 	return std::string("");
 }
@@ -428,6 +436,7 @@ const std::string TestinTraverser::descTexture(TCTexture2D* texture) {
 
 
 const std::string TestinTraverser::descSprite9(TCNode* node) {
+#if TESTIN_USING_CC_EXTENSION == 1
 	TCScale9Sprite* sprite9 = dynamic_cast<TCScale9Sprite*>(node);
 	if (sprite9 != NULL) {
 		sprite9->retain();
@@ -465,6 +474,7 @@ const std::string TestinTraverser::descSprite9(TCNode* node) {
 		desc = textureKey + desc;
 		return desc;
 	}
+#endif
 	return std::string("");
 }
 

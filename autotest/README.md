@@ -43,9 +43,25 @@ LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../cocos2d-x.2.2.3 \
     $(LOCAL_PATH)/../../cocos2d-x.2.2.3/external
 ```
 
- - ld错误
+ - 找不到头文件 "extensions/GUI/CCControlExtension/CCScale9Sprite.h"
 
-  需要在编译时添加cocos extension模块
+  很有可能你使用的引擎为cocos2d-x 3.3beta0版本，此版本对Scale9Sprite的支持有问题。如果确认在你的工程中没有使用Scale9Sprite，那么可以找到cocos_inc.h，修改如下行，将TESTIN_USING_CC_EXTENSION的定义值改为0；或者在相应的Android.mk文件中手工添加Scale9Sprite支持。
+
+```C++
+#define TESTIN_USING_CC_EXTENSION 0
+```
+
+ - ld错误：error: undefined reference to 'typeinfo for cocos2d::extension::Scale9Sprite'
+
+  这是由于您的工程中没有使用extensions模块，可以使用以下任意一种方法修改
+
+  1. 找到cocos_inc.h，修改如下行，将TESTIN_USING_CC_EXTENSION的定义值改为0
+
+```C++
+#define TESTIN_USING_CC_EXTENSION 0
+```
+
+  2. 或者，在编译时添加cocos extension模块
 ```MK
 LOCAL_WHOLE_STATIC_LIBRARIES += cocos_extension_static
 ```
