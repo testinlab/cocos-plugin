@@ -57,10 +57,6 @@ LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../cocos2d-x.2.2.3 \
 
   a) 找到cocos_inc.h，修改如下行，将TESTIN_USING_CC_EXTENSION的定义值改为0
 
-```C++
-#define TESTIN_USING_CC_EXTENSION 0
-```
-
   b) 或者，在编译时添加cocos extension模块
 ```MK
 LOCAL_WHOLE_STATIC_LIBRARIES += cocos_extension_static
