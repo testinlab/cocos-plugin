@@ -2,8 +2,10 @@
 ============
 
 崩溃收集支持插件for Cocos引擎，是C++代码到Native代码（Java/ObjectiveC）的桥梁，方便在C++调用Testin崩溃分析SDK，用于传递自定义用户信息、场景、错误等；实现对JavaScript、Lua脚本的错误收集
+
 **注意：在使用本插件前，须确保Testin的崩溃分析SDK已加入到工程中，否则调用时会崩溃。**
-**要求的崩溃分析SDK版本：Android 1.7，或iOS 1.4**
+
+**要求的崩溃分析SDK版本：Android/iOS 1.7**
 
 - [添加支持](#integration)
 - [自定义用户信息](#setuserinfo)
