@@ -29,7 +29,7 @@
 	#import <UIKit/UIKit.h>
 	#define AGENT_CLASS @"TestinAgent"
 	#define AGENT_METHOD_INIT @"init:channel:"
-	#define AGENT_METHOD_EXCEPTION @"reportCustomizedException:reason:stackTrace:"
+	#define AGENT_METHOD_EXCEPTION @"reportCustomizedException:message:stackTrace:"
 	#define AGENT_METHOD_USERINFO @"setUserInfo:"
 #endif
 
