@@ -238,8 +238,8 @@ TestinJSExcetionHandler::registerJSExceptionHandler(ScriptingCore::getInstance()
 //方法定义，其中appKey为必填，在Testin网站上申请得到；channel为可选，没有此参数时可以填NULL
 static void initTestinAgent(const char* appKey, const char* channel);
 
-//在引擎初始化的代码位置（如AppDelegate.cpp的applicationDidFinishLaunching()函数的最前面），添加如下代码行
-TestinCrashHelper::initTestinAgent("af93ef9341644", "googleplay");
+//例如，在引擎初始化的代码位置（如AppDelegate.cpp的applicationDidFinishLaunching()函数的最前面），添加如下代码行
+TestinCrashHelper::initTestinAgent("<yourAppKey>", "<yourChannel>");
 ```
 
 **需要注意：尽管无需在Native代码中初始化，但是仍然需要将Testin崩溃分析的SDK添加到工程：Android工程，需要将TestinAgent.jar拷贝至工程的libs目录；iOS工程，需要添加TestinAgent.Framework**
