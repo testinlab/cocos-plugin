@@ -3,7 +3,8 @@
 
 崩溃收集支持插件for Cocos引擎，是C++代码到Native代码（Java/ObjectiveC）的桥梁，方便在C++调用Testin崩溃分析SDK，用于传递自定义用户信息、场景、错误等；实现对JavaScript、Lua脚本的错误收集
 **注意：在使用本插件前，须确保Testin的崩溃分析SDK已加入到工程中，否则调用时会崩溃。**
-**要求的崩溃分析SDK版本：Android 1.7，或iOS 1.4**
+
+**要求的崩溃分析SDK版本：Android/iOS 1.7**
 
 - [添加支持](#integration)
 - [自定义用户信息](#setuserinfo)
@@ -11,6 +12,8 @@
 - [脚本错误收集](#scriptexception)
 	- [Lua脚本错误收集](#luaexception)
 	- [JavaScript脚本错误收集](#jsexception)
+- [在引擎代码中初始化](#init)
+- [onStart和onStop（仅Android有效）](#onstartstop)
 
 ## <a name="integration"/>如何添加代码支持
 -----------
@@ -225,6 +228,37 @@ TestinJSExcetionHandler::registerJSExceptionHandler(ScriptingCore::getInstance()
 示例图片：
 
 <img src="./_doc_img/crash_js_2.jpg"/>
+
+## <a name="init"/>在引擎代码中初始化
+
+为了更方便的使用Testin崩溃分析服务，可以在cocos引擎代码中初始化，无需去Native代码（Java/Objc）中添加如下方法：
+
+```C++
+//方法定义，其中appKey为必填，在Testin网站上申请得到；channel为可选，没有此参数时可以填NULL
+static void initTestinAgent(const char* appKey, const char* channel);
+
+//在引擎初始化的代码位置（如AppDelegate.cpp的applicationDidFinishLaunching()函数的最前面），添加如下代码行
+TestinCrashHelper::initTestinAgent("af93ef9341644", "googleplay");
+```
+
+**需要注意：尽管无需在Native代码中初始化，但是仍然需要将Testin崩溃分析的SDK添加到工程：Android工程，需要将TestinAgent.jar拷贝至工程的libs目录；iOS工程，需要添加TestinAgent.Framework**
+
+
+## <a name="onstartstop"/>onStart和onStop（仅Android有效）
+
+同初始化的方法类似，我们为Android工程提供了在引擎代码中添加onStart和onStop的方法（这两个方法是为了更好的收集崩溃发生时的数据和计算崩溃率）
+
+```C++
+//在AppDelegate::applicationWillEnterForeground()方法的最后添加如下语句
+TestinCrashHelper::onActivityStart();
+
+//在AppDelegate::applicationDidEnterBackground()方法的最后添加如下语句
+TestinCrashHelper::onActivityStop();
+```
+
+
+
+
 
 
 
