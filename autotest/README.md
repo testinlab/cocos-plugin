@@ -5,7 +5,7 @@ Cocos手游自动化支持
 
 ## 支持
 -----------
-  cocos手游录制插件，只支持cocos游戏引擎中提供的CCNode（Node）对象。
+  cocos手游录制插件，只支持cocos游戏引擎中提供的CCNode（Node）对象以及继承CCNode（Node）类的对象。
 
 ## 如何添加代码支持
 -----------
