@@ -22,6 +22,7 @@
 	#define AGENT_METHOD_ONSTART "onStart"
 	#define AGENT_METHOD_ONSTOP "onStop"
 	#define AGENT_NONE_PARAMETER "()V"
+	#define AGENT_CONTEXT_PARAMETER "(Landroid/content/Context;)V"
 	#define COCOS_ACTIVITY_CLASS "org/cocos2dx/lib/Cocos2dxActivity"
 	#define COCOS_ACTIVITY_METHOD_CONTEXT "getContext"
 	#define COCOS_ACTIVITY_METHOD_CONTEXT_PARAMETER "()Landroid/content/Context;"
@@ -181,11 +182,11 @@ void TestinCrashHelper::onActivityStart() {
 		LOGD("Could not find Cocos2dxActivity object!");
 		return;
 	} else {
-		LOGD("Found Cocos2dxActivity object!");
+		//LOGD("Found Cocos2dxActivity object!");
 		//will throw ClassNotFoundException if Testin crash sdk is not included
 		clz = env->FindClass(AGENT_CLASS);
 		//will throw NoSuchMethodException if Testin crash sdk is not included
-		method = env->GetStaticMethodID(clz, AGENT_METHOD_ONSTART, AGENT_NONE_PARAMETER);
+		method = env->GetStaticMethodID(clz, AGENT_METHOD_ONSTART, AGENT_CONTEXT_PARAMETER);
 
 		env->CallStaticVoidMethod(clz, method, obj);
 	}
@@ -216,11 +217,11 @@ void TestinCrashHelper::onActivityStop() {
 		LOGD("Could not find Cocos2dxActivity object!");
 		return;
 	} else {
-		LOGD("Found Cocos2dxActivity object!");
+		//LOGD("Found Cocos2dxActivity object!");
 		//will throw ClassNotFoundException if Testin crash sdk is not included
 		clz = env->FindClass(AGENT_CLASS);
 		//will throw NoSuchMethodException if Testin crash sdk is not included
-		method = env->GetStaticMethodID(clz, AGENT_METHOD_ONSTOP, AGENT_NONE_PARAMETER);
+		method = env->GetStaticMethodID(clz, AGENT_METHOD_ONSTOP, AGENT_CONTEXT_PARAMETER);
 
 		env->CallStaticVoidMethod(clz, method, obj);
 	}
