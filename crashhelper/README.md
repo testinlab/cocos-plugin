@@ -244,17 +244,6 @@ TestinCrashHelper::initTestinAgent("<yourAppKey>", "<yourChannel>");
 
 **需要注意：尽管无需在Native代码中初始化，但是仍然需要将Testin崩溃分析的SDK添加到工程：Android工程，需要将TestinAgent.jar拷贝至工程的libs目录；iOS工程，需要添加TestinAgent.Framework**
 
-
-## <a name="onstartstop"/>onStart和onStop（仅Android有效）
-
-同初始化的方法类似，我们为Android工程提供了在引擎代码中添加onStart和onStop的方法（这两个方法是为了更好的收集崩溃发生时的数据和计算崩溃率）
-
-```C++
-//在AppDelegate::applicationWillEnterForeground()方法的最后添加如下语句
-TestinCrashHelper::onActivityStart();
-
-//在AppDelegate::applicationDidEnterBackground()方法的最后添加如下语句
-TestinCrashHelper::onActivityStop();
 ```
 
 
