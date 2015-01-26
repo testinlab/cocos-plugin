@@ -244,8 +244,6 @@ TestinCrashHelper::initTestinAgent("<yourAppKey>", "<yourChannel>");
 
 **需要注意：尽管无需在Native代码中初始化，但是仍然需要将Testin崩溃分析的SDK添加到工程：Android工程，需要将TestinAgent.jar拷贝至工程的libs目录；iOS工程，需要添加TestinAgent.Framework**
 
-```
-
 
 
 
