@@ -19,6 +19,8 @@
 	#define AGENT_METHOD_EXCEPTION_PARAMETER "(ILjava/lang/String;Ljava/lang/String;)V"
 	#define AGENT_METHOD_USERINFO "setUserInfo"
 	#define AGENT_METHOD_USERINFO_PARAMETER "(Ljava/lang/String;)V"
+    #define AGENT_METHOD_ISDEBUG "setLocalDebug"
+	#define AGENT_METHOD_ISDEBUG_PARAMETER "(Z)V"
 	#define AGENT_NONE_PARAMETER "()V"
 	#define AGENT_CONTEXT_PARAMETER "(Landroid/content/Context;)V"
 	#define COCOS_ACTIVITY_CLASS "org/cocos2dx/lib/Cocos2dxActivity"
@@ -155,7 +157,28 @@ void TestinCrashHelper::setUserInfo(const char* userInfo) {
 #endif
 }
 
+void TestinCrashHelper::setLocalDebug(bool isDebug) {
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    JavaVM* jvm = cocos2d::JniHelper::getJavaVM();
+    JNIEnv* env = NULL;
+    jvm->GetEnv((void**)&env, JNI_VERSION_1_4);
+    
+    if (NULL == jvm || NULL == env) {
+        LOGE("Could not complete opertion because JavaVM or JNIEnv is null!");
+        return;
+    }
+    jvm->AttachCurrentThread(&env, 0);
+    
+    //will throw ClassNotFoundException if Testin crash sdk is not included
+    jclass clz = env->FindClass(AGENT_CLASS);
+    //will throw NoSuchMethodException if Testin crash sdk is not included
+    jmethodID method = env->GetStaticMethodID(clz, AGENT_METHOD_ISDEBUG, AGENT_METHOD_ISDEBUG_PARAMETER);
+    
+    env->CallStaticVoidMethod(clz, method, isDebug);
+#elif (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
 
+#endif
+}
 
 
 
