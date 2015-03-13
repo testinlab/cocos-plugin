@@ -18,6 +18,7 @@ public:
 	static void reportException(int type, const char* reason, const char* traceback);
 	static void setUserInfo(const char* userInfo);
     static void setLocalDebug(bool isDebug);
+    static void leaveBreadcrumb(const char* userInfo);
 };
 
 #endif  // __TESTIN_CRASH_HELPER_H__

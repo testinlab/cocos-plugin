@@ -12,7 +12,8 @@ void TestinLuaExceptionHandler::registerLuaExceptionHandler() {
 #else
 	lua_State* ls = cocos2d::CCLuaEngine::defaultEngine()->getLuaStack()->getLuaState(); 
 #endif
-	lua_register(ls, "onLuaException", onLuaException); 
+	lua_register(ls, "onLuaException", onLuaException);
+    lua_register(ls, "leaveBreadcrumb", leaveBreadcrumb);
 }
 
 int TestinLuaExceptionHandler::onLuaException(lua_State* ls) {
@@ -23,7 +24,12 @@ int TestinLuaExceptionHandler::onLuaException(lua_State* ls) {
 	return 0;
 }
 
-
+int TestinLuaExceptionHandler::leaveBreadcrumb(lua_State* ls){
+    const char* Breadcrumb = lua_tostring(ls, 1);
+    TestinCrashHelper::leaveBreadcrumb(Breadcrumb);
+    
+    return 0;
+}
 
 
 
