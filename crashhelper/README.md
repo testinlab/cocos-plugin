@@ -14,7 +14,7 @@
 	- [Lua脚本错误收集](#luaexception)
 	- [JavaScript脚本错误收集](#jsexception)
 - [在引擎代码中初始化](#init)
-- [onStart和onStop（仅Android有效）](#onstartstop)
+- [在脚本中使用面包屑功能](#leaveBreadcrumb)
 
 ## <a name="integration"/>如何添加代码支持
 -----------
@@ -244,9 +244,26 @@ TestinCrashHelper::initTestinAgent("<yourAppKey>", "<yourChannel>");
 
 **需要注意：尽管无需在Native代码中初始化，但是仍然需要将Testin崩溃分析的SDK添加到工程：Android工程，需要将TestinAgent.jar拷贝至工程的libs目录；iOS工程，需要添加TestinAgent.Framework**
 
+## <a name="leaveBreadcrumb"/>在脚本中使用面包屑功能
 
+Testin崩溃分析提供了面包屑功能，当然，开发者可以在JS脚本中设置面包屑，具体步骤如下：
 
+- 在AppDelegate.cpp中添加头文件
 
+```C++
+#include "crashhelper/js/jsb_testin_auto.cpp"
 
+**
+- 注册回调函数（在ScriptingCore::getInstance()->start()执行之前注册）
 
+```C++
+sc->addRegisterCallback(register_jsb_testin_all);
 
+**
+
+- 在JS脚本中设置面包屑
+
+```C++
+testinLeaveBreadcrumb("game.onStart")；
+
+**
