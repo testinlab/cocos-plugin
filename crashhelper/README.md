@@ -253,17 +253,17 @@ Testin崩溃分析提供了面包屑功能，当然，开发者可以在JS脚本
 ```C++
 #include "crashhelper/js/jsb_testin_auto.cpp"
 
-**
+```
 - 注册回调函数（在ScriptingCore::getInstance()->start()执行之前注册）
 
 ```C++
 sc->addRegisterCallback(register_jsb_testin_all);
 
-**
+```
 
 - 在JS脚本中设置面包屑
 
 ```C++
 testinLeaveBreadcrumb("game.onStart")；
 
-**
+```
