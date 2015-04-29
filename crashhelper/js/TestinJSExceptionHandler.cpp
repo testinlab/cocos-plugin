@@ -2,7 +2,6 @@
 #include "TestinJSExceptionHandler.h"
 #include "../TestinCrashHelper.h"
 
-
 void TestinJSExcetionHandler::registerJSExceptionHandler(JSContext *cx) {
 	JS_SetErrorReporter(cx, TestinJSExcetionHandler::reportError);
 }
@@ -19,8 +18,6 @@ void TestinJSExcetionHandler::reportError(JSContext *cx, const char *message, JS
 	TestinCrashHelper::reportException(EXCEPTION_TYPE_JS, message, traceback);
 	free(traceback);
 };
-
-
 
 
 
