@@ -5,7 +5,6 @@
 
 void TestinJSExcetionHandler::registerJSExceptionHandler(JSContext *cx) {
 	JS_SetErrorReporter(cx, TestinJSExcetionHandler::reportError);
-    JS_SetErrorReporter(cx, TestinJSExcetionHandler::leaveBreadcrumb);
 }
 
 void TestinJSExcetionHandler::reportError(JSContext *cx, const char *message, JSErrorReport *report)
@@ -20,11 +19,6 @@ void TestinJSExcetionHandler::reportError(JSContext *cx, const char *message, JS
 	TestinCrashHelper::reportException(EXCEPTION_TYPE_JS, message, traceback);
 	free(traceback);
 };
-
-void  TestinCrashHelper::leaveBreadcrumb(JSContext *cx, const char *message)
-{
-    TestinCrashHelper::leaveBreadcrumb(message);
-}
 
 
 

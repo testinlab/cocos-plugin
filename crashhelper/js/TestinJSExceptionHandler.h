@@ -9,7 +9,6 @@ class  TestinJSExcetionHandler
 public:
 	static void registerJSExceptionHandler(JSContext *cx);
 	static void reportError(JSContext *cx, const char *message, JSErrorReport *report);
-    static void leaveBreadcrumb(JSContext *cx, const char *message);
 };
 
 #endif  // __TESIN_JS_EXCEPTION_HANDLER_H__
