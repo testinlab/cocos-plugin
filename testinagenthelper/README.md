@@ -43,7 +43,7 @@ $(call import-module,external/testinagenthelper)
 
 示例图片：
 
-<img src="./_doc_img/crash_cpp_1.jpg"/>
+<img src="./_doc_img/crash_cpp_1.png"/>
 
 ###### iOS
 
@@ -73,7 +73,7 @@ $(call import-module,external/testinagenthelper/lua)
 
 示例图片：
 
-<img src="./_doc_img/crash_lua_1.jpg"/>
+<img src="./_doc_img/crash_lua_1.png"/>
 
 ###### iOS
 
@@ -103,7 +103,7 @@ $(call import-module,external/testinagenthelper/js)
 
 示例图片：
 
-<img src="./_doc_img/crash_js_1.jpg"/>
+<img src="./_doc_img/crash_js_1.png"/>
 
 ###### iOS
 
