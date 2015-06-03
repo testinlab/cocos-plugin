@@ -1,6 +1,6 @@
 #include <string.h>
 #include "TestinJSExceptionHandler.h"
-#include "../TestinCrashHelper.h"
+#include "../TestinAgentHelper.h"
 
 void TestinJSExcetionHandler::registerJSExceptionHandler(JSContext *cx) {
 	JS_SetErrorReporter(cx, TestinJSExcetionHandler::reportError);
@@ -15,7 +15,7 @@ void TestinJSExcetionHandler::reportError(JSContext *cx, const char *message, JS
 	char* traceback = (char*)malloc(bufLen);
 	memset(traceback, 0, bufLen);
 	sprintf(traceback, format, fileName, (unsigned int) report->lineno, message);
-	TestinCrashHelper::reportException(EXCEPTION_TYPE_JS, message, traceback);
+	TestinAgentHelper::reportException(EXCEPTION_TYPE_JS, message, traceback);
 	free(traceback);
 };
 

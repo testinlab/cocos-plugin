@@ -1,11 +1,11 @@
 崩溃收集支持
 ============
 
-崩溃收集支持插件for Cocos引擎，是C++代码到Native代码（Java/ObjectiveC）的桥梁，方便在C++调用Testin崩溃分析SDK，用于传递自定义用户信息、场景、错误等；实现对JavaScript、Lua脚本的错误收集
+TestinAgent SDK 插件for Cocos引擎，是C++代码到Native代码（Java/ObjectiveC）的桥梁，方便在C++调用TestinAgent SDK，用于传递自定义用户信息、场景、错误等；实现对JavaScript、Lua脚本的错误收集
 
-**注意：在使用本插件前，须确保Testin的崩溃分析SDK已加入到工程中，否则调用时会崩溃。**
+**注意：在使用本插件前，须确保TestinAgent SDK已加入到工程中，否则调用时会崩溃。**
 
-**要求的崩溃分析SDK版本：Android/iOS 1.7**
+**要求的TestinAgent SDK版本：Android/iOS 2.0.0**
 
 - [添加支持](#integration)
 - [自定义用户信息](#setuserinfo)
@@ -35,10 +35,10 @@
 
 ```MK
 #这一行需要同其他的LOCAL_WHOLE_STATIC_LIBRARIES命令放在一起
-LOCAL_WHOLE_STATIC_LIBRARIES += testin_crash_helper_static 
+LOCAL_WHOLE_STATIC_LIBRARIES += testin_agent_helper_static 
 
 #这一行放在最后
-$(call import-module,external/crashhelper) 
+$(call import-module,external/testinagenthelper) 
 ```
 
 示例图片：
@@ -47,7 +47,7 @@ $(call import-module,external/crashhelper)
 
 ###### iOS
 
-在XCode中，将crashhelper目录下的源文件和头文件加入到cocos2d_libs子项目中，如图
+在XCode中，将testinagenthelper目录下的源文件和头文件加入到cocos2d_libs子项目中，如图
 
 <img src="./_doc_img/ios_cpp_1.png"/>
 
@@ -63,12 +63,12 @@ $(call import-module,external/crashhelper)
 
 ```MK
 #这两行需要同其他的LOCAL_WHOLE_STATIC_LIBRARIES命令放在一起
-LOCAL_WHOLE_STATIC_LIBRARIES += testin_crash_helper_static 
-LOCAL_WHOLE_STATIC_LIBRARIES += testin_crash_helper_lua
+LOCAL_WHOLE_STATIC_LIBRARIES += testin_agent_helper_static 
+LOCAL_WHOLE_STATIC_LIBRARIES += testin_agent_helper_lua
 
 #这两行放在最后
-$(call import-module,external/crashhelper) 
-$(call import-module,external/crashhelper/lua) 
+$(call import-module,external/testinagenthelper) 
+$(call import-module,external/testinagenthelper/lua) 
 ```
 
 示例图片：
@@ -77,7 +77,7 @@ $(call import-module,external/crashhelper/lua)
 
 ###### iOS
 
-在XCode中，将crashhelper目录和lua子目录下的源文件和头文件加入到cocos2d_lua_bindings子项目中，如图
+在XCode中，将testinagenthelper目录和lua子目录下的源文件和头文件加入到cocos2d_lua_bindings子项目中，如图
 
 <img src="./_doc_img/ios_lua_1.png"/>
 
@@ -93,12 +93,12 @@ $(call import-module,external/crashhelper/lua)
 
 ```MK
 #这两行需要同其他的LOCAL_WHOLE_STATIC_LIBRARIES命令放在一起
-LOCAL_WHOLE_STATIC_LIBRARIES += testin_crash_helper_static 
-LOCAL_WHOLE_STATIC_LIBRARIES += testin_crash_helper_js
+LOCAL_WHOLE_STATIC_LIBRARIES += testin_agent_helper_static 
+LOCAL_WHOLE_STATIC_LIBRARIES += testin_agent_helper_js
 
 #这两行放在最后
-$(call import-module,external/crashhelper) 
-$(call import-module,external/crashhelper/js) 
+$(call import-module,external/testinagenthelper) 
+$(call import-module,external/testinagenthelper/js) 
 ```
 
 示例图片：
@@ -107,7 +107,7 @@ $(call import-module,external/crashhelper/js)
 
 ###### iOS
 
-在XCode中，将crashhelper目录和js子目录下的源文件和头文件加入到cocos2d_js_bindings子项目中，如图
+在XCode中，将testinagenthelper目录和js子目录下的源文件和头文件加入到cocos2d_js_bindings子项目中，如图
 <img src="./_doc_img/ios_js_1.png"/>
 
 另外需要将源文件同时添加到target的Compile Sources中，否则会报ld错误。可以在如下图所示的设置中查看是否添加，如果没有可以点下面的“+”按钮添加
@@ -120,7 +120,7 @@ $(call import-module,external/crashhelper/js)
 - 添加头文件
 在需要使用本插件的C++代码中添加头文件
 ```C++
-#include "crashhelper/TestinCrashHelper.h"
+#include "testinagenthelper/TestinAgentHelper.h"
 
 //如果编译过程中找不到头文件，需要把external目录添加到头文件搜索目录中，例如
 LOCAL_C_INCLUDES += $(LOCAL_PATH)/../../cocos2d/external
@@ -129,10 +129,10 @@ LOCAL_C_INCLUDES += $(LOCAL_PATH)/../../cocos2d/external
 - 调用
 ```C++
 //调用下面的C++静态方法设置用户信息
-void TestinCrashHelper::setUserInfo(const char* userInfo);
+void TestinAgentHelper::setUserInfo(const char* userInfo);
 
 //例如
-TestinCrashHelper::setUserInfo("test user info");
+TestinAgentHelper::setUserInfo("test user info");
 ```
 
 
@@ -141,7 +141,7 @@ TestinCrashHelper::setUserInfo("test user info");
 - 添加头文件
 在需要使用本插件的C++代码中添加头文件
 ```C++
-#include "crashhelper/TestinCrashHelper.h"
+#include "testinagenthelper/TestinAgentHelper.h"
 
 //如果编译过程中找不到头文件，需要把external目录添加到头文件搜索目录中，例如
 LOCAL_C_INCLUDES += $(LOCAL_PATH)/../../cocos2d/external
@@ -151,10 +151,10 @@ LOCAL_C_INCLUDES += $(LOCAL_PATH)/../../cocos2d/external
 ```C++
 //在捕获到自定义错误时（比如自己捕获的异常或者其他错误），调用下面的C++静态方法
 //traceback中传递详细信息，如果需要多行可以用\n隔开
-void TestinCrashHelper::reportException(int type, const char* reason, const char* traceback);
+void TestinAgentHelper::reportException(int type, const char* reason, const char* traceback);
 
 //例如
-TestinCrashHelper::reportException(1, "test reason", "test message");
+TestinAgentHelper::reportException(1, "test reason", "test message");
 ```
 
 ## <a name="scriptexception"/>脚本错误收集
@@ -165,7 +165,7 @@ TestinCrashHelper::reportException(1, "test reason", "test message");
 - 添加头文件
 在初始化Lua引擎的cpp文件中添加头文件
 ```C++
-#include "crashhelper/lua/TestinLuaExceptionHandler.h"
+#include "testinagenthelper/lua/TestinLuaExceptionHandler.h"
 
 //如果编译过程中找不到头文件，需要把external目录添加到头文件搜索目录中，例如
 LOCAL_C_INCLUDES += $(LOCAL_PATH)/../../cocos2d/external
@@ -211,7 +211,7 @@ end
 - 添加头文件
 在初始化JS引擎的cpp文件中添加头文件
 ```C++
-#include "crashhelper/js/TestinJSExceptionHandler.h"
+#include "testinagenthelper/js/TestinJSExceptionHandler.h"
 
 //如果编译过程中找不到头文件，需要把external目录添加到头文件搜索目录中，例如
 LOCAL_C_INCLUDES += $(LOCAL_PATH)/../../cocos2d/external
@@ -232,26 +232,26 @@ TestinJSExcetionHandler::registerJSExceptionHandler(ScriptingCore::getInstance()
 
 ## <a name="init"/>在引擎代码中初始化
 
-为了更方便的使用Testin崩溃分析服务，可以在cocos引擎代码中初始化，无需去Native代码（Java/Objc）中添加如下方法：
+为了更方便的使用TestinAgent SDK服务，可以在cocos引擎代码中初始化，无需去Native代码（Java/Objc）中添加如下方法：
 
 ```C++
 //方法定义，其中appKey为必填，在Testin网站上申请得到；channel为可选，没有此参数时可以填NULL
 static void initTestinAgent(const char* appKey, const char* channel);
 
 //例如，在引擎初始化的代码位置（如AppDelegate.cpp的applicationDidFinishLaunching()函数的最前面），添加如下代码行
-TestinCrashHelper::initTestinAgent("<yourAppKey>", "<yourChannel>");
+TestinAgentHelper::initTestinAgent("<yourAppKey>", "<yourChannel>");
 ```
 
-**需要注意：尽管无需在Native代码中初始化，但是仍然需要将Testin崩溃分析的SDK添加到工程：Android工程，需要将TestinAgent.jar拷贝至工程的libs目录；iOS工程，需要添加TestinAgent.Framework**
+**需要注意：尽管无需在Native代码中初始化，但是仍然需要将Testin Agent的SDK添加到工程：Android工程，需要将TestinAgent.jar拷贝至工程的libs目录；iOS工程，需要添加TestinAgent.Framework**
 
 ## <a name="leaveBreadcrumb"/>在脚本中使用面包屑功能
 
-Testin崩溃分析提供了面包屑功能，当然，开发者可以在JS脚本中设置面包屑，具体步骤如下：
+TestinAgent SDK提供了面包屑功能，当然，开发者可以在JS脚本中设置面包屑，具体步骤如下：
 
 - 在AppDelegate.cpp中添加头文件
 
 ```C++
-#include "crashhelper/js/jsb_testin_auto.cpp"
+#include "testinagenthelper/js/jsb_testin_auto.cpp"
 
 ```
 - 注册回调函数（在ScriptingCore::getInstance()->start()执行之前注册）

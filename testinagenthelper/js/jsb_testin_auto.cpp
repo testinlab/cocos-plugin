@@ -1,6 +1,6 @@
 #include <string.h>
 #include "jsb_testin_auto.h"
-#include "../TestinCrashHelper.h"
+#include "../TestinAgentHelper.h"
 
 #if COCOS2D_VERSION >= 0x00030500
 bool jsb_testin_leaveBreadcrumb(JSContext *cx, uint32_t argc, JS::Value *vp) {
@@ -31,7 +31,7 @@ bool jsb_testin_leaveBreadcrumb(JSContext *cx, uint32_t argc, JS::Value *vp) {
 #endif
 
 std::string testin_leaveBreadcrumb(const char* breadcrumb) {
-    TestinCrashHelper::leaveBreadcrumb(breadcrumb);
+    TestinAgentHelper::leaveBreadcrumb(breadcrumb);
     return "testin_leaveBreadcrumb";
 }
 

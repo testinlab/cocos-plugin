@@ -2,9 +2,9 @@ LOCAL_PATH := $(call my-dir)
 
 include $(CLEAR_VARS)
 
-LOCAL_MODULE := testin_crash_helper_js
+LOCAL_MODULE := testin_agent_helper_js
 
-LOCAL_MODULE_FILENAME := libcrashhelperjs
+LOCAL_MODULE_FILENAME := libtestinagenthelperjs
 
 LOCAL_SRC_FILES := TestinJSExceptionHandler.cpp
 
