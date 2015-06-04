@@ -29,7 +29,7 @@ public:
     static void setLocalDebug( bool isDebug );
     
     
-    static void leaveBreadcrumb( const char* userInfo );
+    static void leaveBreadcrumb( const char* breadcrumb );
     
     
     static void initTestinAgent();

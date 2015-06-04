@@ -129,7 +129,7 @@ LOCAL_C_INCLUDES += $(LOCAL_PATH)/../../cocos2d/external
 - 调用
 ```C++
 //调用下面的C++静态方法设置用户信息
-void TestinAgentHelper::setUserInfo(const char* userInfo);
+static void setUserInfo( const char* userInfo );
 
 //例如
 TestinAgentHelper::setUserInfo("test user info");
@@ -151,7 +151,7 @@ LOCAL_C_INCLUDES += $(LOCAL_PATH)/../../cocos2d/external
 ```C++
 //在捕获到自定义错误时（比如自己捕获的异常或者其他错误），调用下面的C++静态方法
 //traceback中传递详细信息，如果需要多行可以用\n隔开
-void TestinAgentHelper::reportException(int type, const char* reason, const char* traceback);
+static void TestinAgentHelper::reportException(int type, const char* reason, const char* traceback);
 
 //例如
 TestinAgentHelper::reportException(1, "test reason", "test message");
@@ -185,7 +185,7 @@ TestinLuaExceptionHandler::registerLuaExceptionHandler();
 在Lua主程序的错误回调函数中，调用C++方法把错误传递给C++代码
 ```C++
 //方法定义
-onLuaException(const char* reason, const char* traceback);
+static int onLuaException(const char* reason, const char* traceback);
 
 
 //例如，在调用xpcall函数时，注册了回调函数__G__TRACKBACK__
@@ -220,7 +220,7 @@ LOCAL_C_INCLUDES += $(LOCAL_PATH)/../../cocos2d/external
 - 注册JS崩溃收集handler（C++）
 ```C++
 //方法定义
-void TestinJSExcetionHandler::registerJSExceptionHandler(JSContext *cx);
+static void registerJSExceptionHandler(JSContext *cx);
 
 //在JS引擎初始化成功后（在JS引擎的runScript方法之前），调用此方法，将引擎的context作为对象传入，例如：
 TestinJSExcetionHandler::registerJSExceptionHandler(ScriptingCore::getInstance()->getGlobalContext());
@@ -249,14 +249,52 @@ TestinAgentHelper::initTestinAgent("<yourAppKey>", "<yourChannel>");
 static void initTestinAgent();
 
 //例如，在引擎初始化的代码位置（如AppDelegate.cpp的applicationDidFinishLaunching()函数的最前面），添加如下代码行
-TestinAgentHelper::initTestinAgent();;
+TestinAgentHelper::initTestinAgent();
 ```
 
 **需要注意：尽管无需在Native代码中初始化，但是仍然需要将Testin Agent的SDK添加到工程：Android工程，需要将TestinAgent.jar拷贝至工程的libs目录；iOS工程，需要添加TestinAgent.Framework**
 
-## <a name="leaveBreadcrumb"/>在脚本中使用面包屑功能
+## <a name="leaveBreadcrumb"/>面包屑功能
 
-TestinAgent SDK提供了面包屑功能，当然，开发者可以在JS脚本中设置面包屑，具体步骤如下：
+TestinAgent SDK提供了面包屑功能，当然，开发者可以在C++以及JS、Lua脚本中设置面包屑，具体步骤如下：
+
+-----------
+
+#### <a name="luaexception"/>C++中设置面包屑
+-----------
+
+- 添加头文件
+在需要使用本插件的C++代码中添加头文件
+```C++
+#include "testinagenthelper/TestinAgentHelper.h"
+
+//如果编译过程中找不到头文件，需要把external目录添加到头文件搜索目录中，例如
+LOCAL_C_INCLUDES += $(LOCAL_PATH)/../../cocos2d/external
+```
+
+- 调用
+```C++
+//方法定义，其中breadcrumb为设置的面包屑
+static void leaveBreadcrumb( const char* breadcrumb );
+
+//例如
+TestinAgentHelper::leaveBreadcrumb("init sccussed");
+```
+
+#### <a name="luaexception"/>Lua脚本中设置面包屑
+-----------
+
+- 调用
+```C++
+//方法定义
+static int leaveBreadcrumb(lua_State* ls);
+
+//直接在lua脚本中调用，如下：
+leaveBreadcrumb("click")
+```
+
+#### <a name="luaexception"/>JS脚本中设置面包屑
+-----------
 
 - 在AppDelegate.cpp中添加头文件
 
