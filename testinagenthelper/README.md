@@ -14,7 +14,10 @@ TestinAgent SDK 插件for Cocos引擎，是C++代码到Native代码（Java/Objec
 	- [Lua脚本错误收集](#luaexception)
 	- [JavaScript脚本错误收集](#jsexception)
 - [在引擎代码中初始化](#init)
-- [在脚本中使用面包屑功能](#leaveBreadcrumb)
+- [面包屑功能](#leaveBreadcrumb)
+	- [C++中设置面包屑](#c++Breadcrumb)
+	- [Lua脚本中设置面包屑](#luaBreadcrumb)
+	- [JS脚本中设置面包屑](#jsBreadcrumb)
 
 ## <a name="integration"/>如何添加代码支持
 -----------
@@ -260,7 +263,7 @@ TestinAgent SDK提供了面包屑功能，当然，开发者可以在C++以及JS
 
 -----------
 
-#### <a name="luaexception"/>C++中设置面包屑
+#### <a name="c++Breadcrumb"/>C++中设置面包屑
 -----------
 
 - 添加头文件
@@ -281,7 +284,7 @@ static void leaveBreadcrumb( const char* breadcrumb );
 TestinAgentHelper::leaveBreadcrumb("init sccussed");
 ```
 
-#### <a name="luaexception"/>Lua脚本中设置面包屑
+#### <a name="luaBreadcrumb"/>Lua脚本中设置面包屑
 -----------
 
 - 调用
@@ -293,7 +296,7 @@ static int leaveBreadcrumb(lua_State* ls);
 leaveBreadcrumb("click")
 ```
 
-#### <a name="luaexception"/>JS脚本中设置面包屑
+#### <a name="jsBreadcrumb"/>JS脚本中设置面包屑
 -----------
 
 - 在AppDelegate.cpp中添加头文件
