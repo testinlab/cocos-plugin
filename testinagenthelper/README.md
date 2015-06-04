@@ -1,4 +1,4 @@
-崩溃收集支持
+TestinAgent SDK cocos插件支持
 ============
 
 TestinAgent SDK 插件for Cocos引擎，是C++代码到Native代码（Java/ObjectiveC）的桥梁，方便在C++调用TestinAgent SDK，用于传递自定义用户信息、场景、错误等；实现对JavaScript、Lua脚本的错误收集
@@ -240,6 +240,16 @@ static void initTestinAgent(const char* appKey, const char* channel);
 
 //例如，在引擎初始化的代码位置（如AppDelegate.cpp的applicationDidFinishLaunching()函数的最前面），添加如下代码行
 TestinAgentHelper::initTestinAgent("<yourAppKey>", "<yourChannel>");
+```
+
+或者直接修改TestinAgentConfig.h文件中的配置，然后使用如下方法初始化：
+
+```C++
+//方法定义，该方法初始化时，会根据TestinAgentConfig.h文件中的配置进行设置TestinAgent SDK的初始化参数
+static void initTestinAgent();
+
+//例如，在引擎初始化的代码位置（如AppDelegate.cpp的applicationDidFinishLaunching()函数的最前面），添加如下代码行
+TestinAgentHelper::initTestinAgent();;
 ```
 
 **需要注意：尽管无需在Native代码中初始化，但是仍然需要将Testin Agent的SDK添加到工程：Android工程，需要将TestinAgent.jar拷贝至工程的libs目录；iOS工程，需要添加TestinAgent.Framework**
