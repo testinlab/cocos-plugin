@@ -401,5 +401,10 @@ sc->addRegisterCallback(register_jsb_testin_all);
 
 ```C++
 
+//例如
+testinBeginTransaction("支付");
+testinEndTransaction("支付");
+testinFailTransaction("支付", "金额不足");
+testinCancelTransaction("支付", "用户主动取消");
 
 ```
