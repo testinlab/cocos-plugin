@@ -8,16 +8,20 @@ TestinAgent SDK 插件for Cocos引擎，是C++代码到Native代码（Java/Objec
 **要求的TestinAgent SDK版本：Android/iOS 2.0.0**
 
 - [添加支持](#integration)
+- [在引擎代码中初始化](#init)
 - [自定义用户信息](#setuserinfo)
 - [自定义错误](#customize)
 - [脚本错误收集](#scriptexception)
 	- [Lua脚本错误收集](#luaexception)
 	- [JavaScript脚本错误收集](#jsexception)
-- [在引擎代码中初始化](#init)
 - [面包屑功能](#leaveBreadcrumb)
 	- [C++中设置面包屑](#c++Breadcrumb)
 	- [Lua脚本中设置面包屑](#luaBreadcrumb)
 	- [JS脚本中设置面包屑](#jsBreadcrumb)
+- [Transaction功能](#Transaction)
+    - [C++中使用Transaction功能](#c++Transaction)
+    - [Lua中使用Transaction功能](#luaTransaction)
+    - [JS中使用Transaction功能](#jsTransaction)
 
 ## <a name="integration"/>如何添加代码支持
 -----------
@@ -319,13 +323,13 @@ testinLeaveBreadcrumb("game.onStart")；
 
 ```
 
-## <a name="leaveBreadcrumb"/>Transaction（目前只支持Android）
+## <a name="Transaction"/>Transaction（目前只支持Android）
 
 TestinAgent SDK提供了Transaction功能，开发者可以在程序中设置多个Transaction来监控重要的业务处理情况，比如玩家支付等。同样，开发者可以在C++以及JS、Lua脚本中使用Transaction功能，具体步骤如下：
 
 -----------
 
-#### <a name="c++Breadcrumb"/>C++中使用Transaction功能
+#### <a name="c++Transaction"/>C++中使用Transaction功能
 -----------
 
 - 添加头文件
@@ -359,7 +363,7 @@ TestinAgentHelper::failTransaction("支付", "金额不足");
 TestinAgentHelper::cancelTransaction("支付", "用户主动取消");
 ```
 
-#### <a name="luaBreadcrumb"/>Lua中使用Transaction功能
+#### <a name="luaTransaction"/>Lua中使用Transaction功能
 -----------
 
 - 调用
@@ -375,4 +379,27 @@ beginTransaction("支付")
 endTransaction("支付")
 failTransaction("支付", "金额不足")
 cancelTransaction("支付", "用户主动取消")
+```
+
+#### <a name="jsTransaction"/>JS中使用Transaction功能
+-----------
+
+- 在AppDelegate.cpp中添加头文件
+
+```C++
+#include "testinagenthelper/js/jsb_testin_auto.cpp"
+
+```
+- 注册回调函数（在ScriptingCore::getInstance()->start()执行之前注册）
+
+```C++
+sc->addRegisterCallback(register_jsb_testin_all);
+
+```
+
+- 在JS脚本中使用Transaction功能
+
+```C++
+
+
 ```
