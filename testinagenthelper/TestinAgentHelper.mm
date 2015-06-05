@@ -29,6 +29,14 @@
 #define AGENT_METHOD_ISDEBUG_PARAMETER "(Z)V"
 #define AGENT_METHOD_LEAVEBREADCRUMB "leaveBreadcrumb"
 #define AGENT_METHOD_LEAVEBREADCRUMB_PARAMETER "(Ljava/lang/String;)V"
+#define AGENT_METHOD_BTRANSACTION "beginTransaction"
+#define AGENT_METHOD_BTRANSACTION_PARAMETER "(Ljava/lang/String;)V"
+#define AGENT_METHOD_ETRANSACTION "endTransaction"
+#define AGENT_METHOD_ETRANSACTION_PARAMETER "(Ljava/lang/String;)V"
+#define AGENT_METHOD_FTRANSACTION "failTransaction"
+#define AGENT_METHOD_FTRANSACTION_PARAMETER "(Ljava/lang/String;Ljava/lang/String;)V"
+#define AGENT_METHOD_CTRANSACTION "cancelTransaction"
+#define AGENT_METHOD_CTRANSACTION_PARAMETER "(Ljava/lang/String;Ljava/lang/String;)V"
 #define AGENT_NONE_PARAMETER "()V"
 #define AGENT_CONTEXT_PARAMETER "(Landroid/content/Context;)V"
 #define COCOS_ACTIVITY_CLASS "org/cocos2dx/lib/Cocos2dxActivity"
@@ -95,74 +103,46 @@ void TestinAgentHelper::initTestinAgent(const char* appKey, const char* channel)
 
 
 void TestinAgentHelper::reportException(int type, const char* reason, const char* traceback) {
+    if (_initialed) {
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-    JavaVM* jvm = cocos2d::JniHelper::getJavaVM();
-    JNIEnv* env = NULL;
-    jvm->GetEnv((void**)&env, JNI_VERSION_1_4);
+        JavaVM* jvm = cocos2d::JniHelper::getJavaVM();
+        JNIEnv* env = NULL;
+        jvm->GetEnv((void**)&env, JNI_VERSION_1_4);
     
-    if (NULL == jvm || NULL == env) {
-        LOGE("Could not complete opertion because JavaVM or JNIEnv is null!");
-        return;
-    }
-    jvm->AttachCurrentThread(&env, 0);
+        if (NULL == jvm || NULL == env) {
+            LOGE("Could not complete opertion because JavaVM or JNIEnv is null!");
+            return;
+        }
+        jvm->AttachCurrentThread(&env, 0);
     
-    //will throw ClassNotFoundException if Testin crash sdk is not included
-    jclass clz = env->FindClass(AGENT_CLASS);
-    //will throw NoSuchMethodException if Testin crash sdk is not included
-    jmethodID method = env->GetStaticMethodID(clz, AGENT_METHOD_EXCEPTION, AGENT_METHOD_EXCEPTION_PARAMETER);
+        //will throw ClassNotFoundException if Testin crash sdk is not included
+        jclass clz = env->FindClass(AGENT_CLASS);
+        //will throw NoSuchMethodException if Testin crash sdk is not included
+        jmethodID method = env->GetStaticMethodID(clz, AGENT_METHOD_EXCEPTION, AGENT_METHOD_EXCEPTION_PARAMETER);
     
-    jstring strParam1 = env->NewStringUTF(reason);
-    jstring strParam2 = env->NewStringUTF(traceback);
-    env->CallStaticVoidMethod(clz, method, type, strParam1, strParam2);
-    //env->DeleteLocalRef(strParam1);
-    //env->DeleteLocalRef(strParam2);
+        jstring strParam1 = env->NewStringUTF(reason);
+        jstring strParam2 = env->NewStringUTF(traceback);
+        env->CallStaticVoidMethod(clz, method, type, strParam1, strParam2);
+        //env->DeleteLocalRef(strParam1);
+        //env->DeleteLocalRef(strParam2);
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-    NSNumber* num = @(type);
-    NSString* strParam1 = @(reason);
-    NSString* strParam2 = @(traceback);
-    Class cls = NSClassFromString(AGENT_CLASS);
-    SEL func = NSSelectorFromString(AGENT_METHOD_EXCEPTION);
-    NSMethodSignature* signature = [cls methodSignatureForSelector:func];
-    NSInvocation* invocation = [NSInvocation invocationWithMethodSignature:signature];
-    [invocation setTarget:cls];
-    [invocation setSelector:func];
-    [invocation setArgument:&num atIndex:2];
-    [invocation setArgument:&strParam1 atIndex:3];
-    [invocation setArgument:&strParam2 atIndex:4];
-    [invocation invoke];
+        NSNumber* num = @(type);
+        NSString* strParam1 = @(reason);
+        NSString* strParam2 = @(traceback);
+        Class cls = NSClassFromString(AGENT_CLASS);
+        SEL func = NSSelectorFromString(AGENT_METHOD_EXCEPTION);
+        NSMethodSignature* signature = [cls methodSignatureForSelector:func];
+        NSInvocation* invocation = [NSInvocation invocationWithMethodSignature:signature];
+        [invocation setTarget:cls];
+        [invocation setSelector:func];
+        [invocation setArgument:&num atIndex:2];
+        [invocation setArgument:&strParam1 atIndex:3];
+        [invocation setArgument:&strParam2 atIndex:4];
+        [invocation invoke];
 #endif
-}
-
-void TestinAgentHelper::setUserInfo(const char* userInfo) {
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-    JavaVM* jvm = cocos2d::JniHelper::getJavaVM();
-    JNIEnv* env = NULL;
-    jvm->GetEnv((void**)&env, JNI_VERSION_1_4);
-    
-    if (NULL == jvm || NULL == env) {
-        LOGE("Could not complete opertion because JavaVM or JNIEnv is null!");
-        return;
+    }else{
+        LOGE("Please init TestinAgent first!!!");
     }
-    jvm->AttachCurrentThread(&env, 0);
-    
-    //will throw ClassNotFoundException if Testin crash sdk is not included
-    jclass clz = env->FindClass(AGENT_CLASS);
-    //will throw NoSuchMethodException if Testin crash sdk is not included
-    jmethodID method = env->GetStaticMethodID(clz, AGENT_METHOD_USERINFO, AGENT_METHOD_USERINFO_PARAMETER);
-    
-    jstring strParam = env->NewStringUTF(userInfo);
-    env->CallStaticVoidMethod(clz, method, strParam);
-#elif (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-    NSString* strParam = @(userInfo);
-    Class cls = NSClassFromString(AGENT_CLASS);
-    SEL func = NSSelectorFromString(AGENT_METHOD_USERINFO);
-    NSMethodSignature* signature = [cls methodSignatureForSelector:func];
-    NSInvocation* invocation = [NSInvocation invocationWithMethodSignature:signature];
-    [invocation setTarget:cls];
-    [invocation setSelector:func];
-    [invocation setArgument:&strParam atIndex:2];
-    [invocation invoke];
-#endif
 }
 
 void TestinAgentHelper::setLocalDebug(bool isDebug) {
@@ -185,37 +165,6 @@ void TestinAgentHelper::setLocalDebug(bool isDebug) {
     env->CallStaticVoidMethod(clz, method, isDebug);
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     
-#endif
-}
-
-void TestinAgentHelper::leaveBreadcrumb(const char* Breadcrumb) {
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-    JavaVM* jvm = cocos2d::JniHelper::getJavaVM();
-    JNIEnv* env = NULL;
-    jvm->GetEnv((void**)&env, JNI_VERSION_1_4);
-    
-    if (NULL == jvm || NULL == env) {
-        LOGE("Could not complete opertion because JavaVM or JNIEnv is null!");
-        return;
-    }
-    jvm->AttachCurrentThread(&env, 0);
-    
-    //will throw ClassNotFoundException if Testin crash sdk is not included
-    jclass clz = env->FindClass(AGENT_CLASS);
-    //will throw NoSuchMethodException if Testin crash sdk is not included
-    jmethodID method = env->GetStaticMethodID(clz, AGENT_METHOD_LEAVEBREADCRUMB, AGENT_METHOD_LEAVEBREADCRUMB_PARAMETER);
-    jstring strParam = env->NewStringUTF(Breadcrumb);
-    env->CallStaticVoidMethod(clz, method, strParam);
-#elif (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-    NSString* strParam = @(Breadcrumb);
-    Class cls = NSClassFromString(AGENT_CLASS);
-    SEL func = NSSelectorFromString(AGENT_METHOD_LEAVEBREADCRUMB);
-    NSMethodSignature* signature = [cls methodSignatureForSelector:func];
-    NSInvocation* invocation = [NSInvocation invocationWithMethodSignature:signature];
-    [invocation setTarget:cls];
-    [invocation setSelector:func];
-    [invocation setArgument:&strParam atIndex:2];
-    [invocation invoke];
 #endif
 }
 
@@ -276,6 +225,103 @@ void TestinAgentHelper::initTestinAgent(){
     }
 }
 
+void TestinAgentHelper::setUserInfo(const char* userInfo) {
+    callTestinAgentMethod(AGENT_METHOD_USERINFO, AGENT_METHOD_USERINFO_PARAMETER, userInfo);
+}
+
+void TestinAgentHelper::leaveBreadcrumb(const char* Breadcrumb) {
+    callTestinAgentMethod(AGENT_METHOD_LEAVEBREADCRUMB, AGENT_METHOD_LEAVEBREADCRUMB_PARAMETER, Breadcrumb);
+}
+
+void TestinAgentHelper::beginTransaction(const char* bTransaction) {
+    callTestinAgentMethod(AGENT_METHOD_BTRANSACTION, AGENT_METHOD_BTRANSACTION_PARAMETER, bTransaction);
+}
+
+void TestinAgentHelper::endTransaction(const char* eTransaction) {
+    callTestinAgentMethod(AGENT_METHOD_ETRANSACTION, AGENT_METHOD_ETRANSACTION_PARAMETER, eTransaction);
+}
+
+void TestinAgentHelper::failTransaction(const char* fTransaction, const char* reason) {
+    callTestinAgentMethod(AGENT_METHOD_FTRANSACTION, AGENT_METHOD_FTRANSACTION_PARAMETER, fTransaction, reason);
+}
+
+void TestinAgentHelper::cancelTransaction(const char* cTransaction, const char* reason) {
+    callTestinAgentMethod(AGENT_METHOD_CTRANSACTION, AGENT_METHOD_CTRANSACTION_PARAMETER, cTransaction, reason);
+}
+
+void TestinAgentHelper::callTestinAgentMethod(const char* methodName, const char* methodParam, const char* param){
+    if (_initialed) {
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+        JavaVM* jvm = cocos2d::JniHelper::getJavaVM();
+        JNIEnv* env = NULL;
+        jvm->GetEnv((void**)&env, JNI_VERSION_1_4);
+        
+        if (NULL == jvm || NULL == env) {
+            LOGE("Could not complete opertion because JavaVM or JNIEnv is null!");
+            return;
+        }
+        jvm->AttachCurrentThread(&env, 0);
+        
+        //will throw ClassNotFoundException if Testin crash sdk is not included
+        jclass clz = env->FindClass(AGENT_CLASS);
+        //will throw NoSuchMethodException if Testin crash sdk is not included
+        jmethodID method = env->GetStaticMethodID(clz, methodName, methodParam);
+        jstring strParam = env->NewStringUTF(param);
+        env->CallStaticVoidMethod(clz, method, strParam);
+#elif (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+        NSString* strParam = @(param);
+        Class cls = NSClassFromString(AGENT_CLASS);
+        SEL func = NSSelectorFromString(methodName);
+        NSMethodSignature* signature = [cls methodSignatureForSelector:func];
+        NSInvocation* invocation = [NSInvocation invocationWithMethodSignature:signature];
+        [invocation setTarget:cls];
+        [invocation setSelector:func];
+        [invocation setArgument:&strParam atIndex:2];
+        [invocation invoke];
+#endif
+    }else{
+        LOGE("Please init TestinAgent first!!!");
+    }
+}
+
+void TestinAgentHelper::callTestinAgentMethod(const char* methodName, const char* methodParam, const char* param1, const char* param2){
+    if (_initialed) {
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+        JavaVM* jvm = cocos2d::JniHelper::getJavaVM();
+        JNIEnv* env = NULL;
+        jvm->GetEnv((void**)&env, JNI_VERSION_1_4);
+        
+        if (NULL == jvm || NULL == env) {
+            LOGE("Could not complete opertion because JavaVM or JNIEnv is null!");
+            return;
+        }
+        jvm->AttachCurrentThread(&env, 0);
+        
+        //will throw ClassNotFoundException if Testin crash sdk is not included
+        jclass clz = env->FindClass(AGENT_CLASS);
+        //will throw NoSuchMethodException if Testin crash sdk is not included
+        jmethodID method = env->GetStaticMethodID(clz, methodName, methodParam);
+        jstring strParam1 = env->NewStringUTF(param1);
+        jstring strParam2 = env->NewStringUTF(param2);
+        env->CallStaticVoidMethod(clz, method, strParam1, strParam2);
+#elif (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+        NSString* strParam1 = @(param1);
+        NSString* strParam2 = @(param2);
+        Class cls = NSClassFromString(AGENT_CLASS);
+        SEL func = NSSelectorFromString(methodName);
+        NSMethodSignature* signature = [cls methodSignatureForSelector:func];
+        NSInvocation* invocation = [NSInvocation invocationWithMethodSignature:signature];
+        [invocation setTarget:cls];
+        [invocation setSelector:func];
+        [invocation setArgument:&strParam1 atIndex:2];
+        [invocation setArgument:&strParam2 atIndex:3];
+        [invocation invoke];
+#endif
+    }else{
+        LOGE("Please init TestinAgent first!!!");
+    }
+}
+
 jobject TestinAgentHelper::initConfig(JNIEnv* env, jobject objAgentConfig){
     jclass agentConfig = env->FindClass(AGENT_CLASS_CONFIG);
     
@@ -320,10 +366,4 @@ jobject TestinAgentHelper::initConfig(JNIEnv* env, jobject objAgentConfig){
     
     return objAgentConfig;
 }
-
-
-
-
-
-
 

@@ -117,6 +117,30 @@ $(call import-module,external/testinagenthelper/js)
 
 <img src="./_doc_img/ios_cpp_2.png"/>
 
+## <a name="init"/>在引擎代码中初始化
+
+为了更方便的使用TestinAgent SDK服务，可以在cocos引擎代码中初始化，无需去Native代码（Java/Objc）中添加如下方法：
+
+```C++
+//方法定义，其中appKey为必填，在Testin网站上申请得到；channel为可选，没有此参数时可以填NULL
+static void initTestinAgent(const char* appKey, const char* channel);
+
+//例如，在引擎初始化的代码位置（如AppDelegate.cpp的applicationDidFinishLaunching()函数的最前面），添加如下代码行
+TestinAgentHelper::initTestinAgent("<yourAppKey>", "<yourChannel>");
+```
+
+或者直接修改TestinAgentConfig.h文件中的配置，然后使用如下方法初始化：
+
+```C++
+//方法定义，该方法初始化时，会根据TestinAgentConfig.h文件中的配置进行设置TestinAgent SDK的初始化参数。
+//该方法目前只支持Android
+static void initTestinAgent();
+
+//例如，在引擎初始化的代码位置（如AppDelegate.cpp的applicationDidFinishLaunching()函数的最前面），添加如下代码行
+TestinAgentHelper::initTestinAgent();
+```
+
+**需要注意：尽管无需在Native代码中初始化，但是仍然需要将Testin Agent的SDK添加到工程：Android工程，需要将TestinAgent.jar拷贝至工程的libs目录；iOS工程，需要添加TestinAgent.Framework**
 
 ## <a name="setuserinfo"/>自定义用户信息
 -----------
@@ -233,33 +257,9 @@ TestinJSExcetionHandler::registerJSExceptionHandler(ScriptingCore::getInstance()
 
 <img src="./_doc_img/crash_js_2.jpg"/>
 
-## <a name="init"/>在引擎代码中初始化
-
-为了更方便的使用TestinAgent SDK服务，可以在cocos引擎代码中初始化，无需去Native代码（Java/Objc）中添加如下方法：
-
-```C++
-//方法定义，其中appKey为必填，在Testin网站上申请得到；channel为可选，没有此参数时可以填NULL
-static void initTestinAgent(const char* appKey, const char* channel);
-
-//例如，在引擎初始化的代码位置（如AppDelegate.cpp的applicationDidFinishLaunching()函数的最前面），添加如下代码行
-TestinAgentHelper::initTestinAgent("<yourAppKey>", "<yourChannel>");
-```
-
-或者直接修改TestinAgentConfig.h文件中的配置，然后使用如下方法初始化：
-
-```C++
-//方法定义，该方法初始化时，会根据TestinAgentConfig.h文件中的配置进行设置TestinAgent SDK的初始化参数
-static void initTestinAgent();
-
-//例如，在引擎初始化的代码位置（如AppDelegate.cpp的applicationDidFinishLaunching()函数的最前面），添加如下代码行
-TestinAgentHelper::initTestinAgent();
-```
-
-**需要注意：尽管无需在Native代码中初始化，但是仍然需要将Testin Agent的SDK添加到工程：Android工程，需要将TestinAgent.jar拷贝至工程的libs目录；iOS工程，需要添加TestinAgent.Framework**
-
 ## <a name="leaveBreadcrumb"/>面包屑功能
 
-TestinAgent SDK提供了面包屑功能，当然，开发者可以在C++以及JS、Lua脚本中设置面包屑，具体步骤如下：
+TestinAgent SDK提供了面包屑功能，方便开发者在解决Crash或者异常的时候，还原用户的真实操作流程。当然，开发者可以在C++以及JS、Lua脚本中设置面包屑，具体步骤如下：
 
 -----------
 
@@ -317,4 +317,62 @@ sc->addRegisterCallback(register_jsb_testin_all);
 ```C++
 testinLeaveBreadcrumb("game.onStart")；
 
+```
+
+## <a name="leaveBreadcrumb"/>Transaction（目前只支持Android）
+
+TestinAgent SDK提供了Transaction功能，开发者可以在程序中设置多个Transaction来监控重要的业务处理情况，比如玩家支付等。同样，开发者可以在C++以及JS、Lua脚本中使用Transaction功能，具体步骤如下：
+
+-----------
+
+#### <a name="c++Breadcrumb"/>C++中使用Transaction功能
+-----------
+
+- 添加头文件
+在需要使用本插件的C++代码中添加头文件
+```C++
+#include "testinagenthelper/TestinAgentHelper.h"
+
+//如果编译过程中找不到头文件，需要把external目录添加到头文件搜索目录中，例如
+LOCAL_C_INCLUDES += $(LOCAL_PATH)/../../cocos2d/external
+```
+
+- 调用
+```C++
+//方法定义，Transaction功能需要有一个begin，一个结束（即end、fail、cancel）
+//开始一个Transaction，其中bTransaction是要设置的Transaction的名称
+static void beginTransaction( const char* bTransaction );
+
+//结束一个Transaction，其中eTransaction是要设置的Transaction的名称（注：该名称需要跟beginTransaction时设置的一样）
+static void endTransaction( const char* eTransaction );
+
+//一个Transaction失败，其中fTransaction是要设置的Transaction的名称（注：该名称需要跟beginTransaction时设置的一样）
+static void failTransaction( const char* fTransaction, const char* reason );
+
+//取消一个Transaction，其中cTransaction是要设置的Transaction的名称（注：该名称需要跟beginTransaction时设置的一样）
+static void cancelTransaction( const char* cTransaction, const char* reason );
+
+//例如
+TestinAgentHelper::beginTransaction("支付");
+TestinAgentHelper::endTransaction("支付");
+TestinAgentHelper::failTransaction("支付", "金额不足");
+TestinAgentHelper::cancelTransaction("支付", "用户主动取消");
+```
+
+#### <a name="luaBreadcrumb"/>Lua中使用Transaction功能
+-----------
+
+- 调用
+```C++
+//方法定义
+static int beginTransaction(lua_State* ls);
+static int endTransaction(lua_State* ls);
+static int failTransaction(lua_State* ls);
+static int cancelTransaction(lua_State* ls);
+
+//直接在lua脚本中调用，如下：
+beginTransaction("支付")
+endTransaction("支付")
+failTransaction("支付", "金额不足")
+cancelTransaction("支付", "用户主动取消")
 ```
