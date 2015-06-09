@@ -14,6 +14,6 @@ const bool	isAPM		= true; /* collect apm data or not */
 const bool	isCh		= true; /* collect Java Crash or not */
 const bool	isEx		= true; /* collect exception or not */
 const bool	isRWifi		= true; /* only report with wifi */
-const bool	isRBack		= true; /* only report on back */
+const bool	isRBack		= true; /* when the app in the background, whether report data or not */
 
 #endif  /* __TESTIN_AGENT_CONFIG_H__ */
