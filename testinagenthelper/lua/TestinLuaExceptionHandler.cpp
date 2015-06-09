@@ -4,8 +4,6 @@
 #include "CCLuaEngine.h"
 
 
-
-
 void TestinLuaExceptionHandler::registerLuaExceptionHandler() {
 #if COCOS2D_VERSION >= 0x00030000
 	lua_State* ls = cocos2d::LuaEngine::getInstance()->getLuaStack()->getLuaState(); 

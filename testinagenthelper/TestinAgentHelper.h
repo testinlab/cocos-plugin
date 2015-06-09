@@ -8,14 +8,10 @@
 #define EXCEPTION_TYPE_LUA	3
 #define EXCEPTION_TYPE_JS	4
 
-#include <jni.h>
-
 class TestinAgentHelper
 {
 private:
     static bool _initialed;
-    
-    static jobject initConfig(JNIEnv* env, jobject objAgentConfig);
     
     static void callTestinAgentMethod(const char* methodName, const char* methodParam, const char* param);
     
