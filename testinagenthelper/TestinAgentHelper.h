@@ -17,7 +17,7 @@ private:
     
     static void callTestinAgentMethod(const char* methodName, const char* methodParam, const char* param1, const char* param2);
 public:
-    static void initTestinAgent( const char* appKey, const char* channel );
+    static void initTestinAgent( const char* appkey, const char* channel );
     
     static void reportException( int type, const char* reason, const char* traceback );
     
