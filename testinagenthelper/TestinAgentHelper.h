@@ -29,13 +29,7 @@ public:
     
     static void leaveBreadcrumb( const char* breadcrumb );
     
-    static void beginTransaction( const char* bTransaction );
-    
-    static void endTransaction( const char* eTransaction );
-
-    static void failTransaction( const char* fTransaction, const char* reason );
-
-    static void cancelTransaction( const char* cTransaction, const char* reason );
+    static void reportURLRequest(const char* url, const char* method, const char* contentType, long latency, long bytesRecv, long bytesSend, int statusCode);
 };
 
 #endif  /* __TESTIN_AGENT_HELPER_H__ */
