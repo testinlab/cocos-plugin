@@ -18,10 +18,6 @@ TestinAgent SDK 插件for Cocos引擎，是C++代码到Native代码（Java/Objec
 	- [C++中设置面包屑](#c++Breadcrumb)
 	- [Lua脚本中设置面包屑](#luaBreadcrumb)
 	- [JS脚本中设置面包屑](#jsBreadcrumb)
-- [Transaction功能](#Transaction)
-    - [C++中使用Transaction功能](#c++Transaction)
-    - [Lua中使用Transaction功能](#luaTransaction)
-    - [JS中使用Transaction功能](#jsTransaction)
 
 ## <a name="integration"/>如何添加代码支持
 -----------
