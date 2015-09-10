@@ -16,12 +16,10 @@ const bool	isDebug		= true;
 const bool	lPer		= true; /* collect log or not */
 const bool	aPer		= true; /* collect activity or not */
 const bool	isNCh		= true; /* collect native crash or not */
-const bool	isAPM		= true; /* collect apm data or not */
 const bool	isCh		= true; /* collect Java Crash or not */
 const bool	isEx		= true; /* collect exception or not */
 const bool	isRWifi		= true; /* only report with wifi */
 const bool	isRBack		= true; /* when the app in the background, whether report data or not */
-const bool  isMoniter   = false;/* network moniter or not*/
 
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
 /*iOS part*/

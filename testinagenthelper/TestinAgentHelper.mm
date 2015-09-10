@@ -71,6 +71,14 @@ void TestinAgentHelper::initTestinAgent(){
         jvm->AttachCurrentThread(&env, 0);
         
         jclass clz = env->FindClass(COCOS_ACTIVITY_CLASS);
+        if(env->ExceptionCheck())
+        {
+            env->ExceptionDescribe();
+            env->ExceptionClear();
+            LOGE("Exception initClassLoaderForMultiThread COCOS_ACTIVITY_CLASS is exception");
+            return;
+        }
+
         jmethodID method = env->GetStaticMethodID(clz, COCOS_ACTIVITY_METHOD_CONTEXT, COCOS_ACTIVITY_METHOD_CONTEXT_PARAMETER);
         jobject objCtx = (jobject) env->CallStaticObjectMethod(clz, method);
         if (NULL == objCtx) {
@@ -80,7 +88,22 @@ void TestinAgentHelper::initTestinAgent(){
             LOGD("Found Cocos2dxActivity object!");
             //will throw ClassNotFoundException if Testin crash sdk is not included
             jclass agent = env->FindClass(AGENT_CLASS);
+            if(env->ExceptionCheck())
+            {
+                env->ExceptionDescribe();
+                env->ExceptionClear();
+                LOGE("Exception initClassLoaderForMultiThread AGENT_CLASS is exception");
+                return;
+            }
+
             jclass agentConfigBuilder = env->FindClass(AGENT_CLASS_CONFIG_BUILDER);
+            if(env->ExceptionCheck())
+            {
+                env->ExceptionDescribe();
+                env->ExceptionClear();
+                LOGE("Exception initClassLoaderForMultiThread AGENT_CLASS_CONFIG_BUILDER is exception");
+                return;
+            }
             //will throw NoSuchMethodException if Testin crash sdk is not included
             
             jmethodID mAgentConfigBuilder = env->GetMethodID(agentConfigBuilder, "<init>", AGENT_CONTEXT_PARAMETER);
@@ -95,50 +118,65 @@ void TestinAgentHelper::initTestinAgent(){
                     if(NULL != objAgentConfig){
                         
                         jclass agentConfig = env->FindClass(AGENT_CLASS_CONFIG);
+                        if(env->ExceptionCheck())
+                        {
+                            env->ExceptionDescribe();
+                            env->ExceptionClear();
+                            LOGE("Exception initClassLoaderForMultiThread AGENT_CLASS_CONFIG is exception");
+                            return;
+                        }
                         
                         jmethodID mSetAppKey = env->GetMethodID(agentConfig, "setAppKey", "(Ljava/lang/String;)V");
+                        if(env->ExceptionCheck())
+                        {
+                            env->ExceptionDescribe();
+                            env->ExceptionClear();
+                            LOGE("TestinAgentHelper GetMethodID setAppKey is exception");
+                            return;
+                        }
                         jstring strAppkey = env->NewStringUTF(appKey);
-                        env->CallObjectMethod(objAgentConfig, mSetAppKey, strAppkey);
+                        env->CallVoidMethod(objAgentConfig, mSetAppKey, strAppkey);
+                        if(env->ExceptionCheck())
+                        {
+                            env->ExceptionDescribe();
+                            env->ExceptionClear();
+                            LOGE("TestinAgentHelper setAppKey is exception");
+                            return;
+                        }
                         
                         jmethodID mSetAppChannel = env->GetMethodID(agentConfig, "setAppChannel", "(Ljava/lang/String;)V");
                         jstring strAppChannel = env->NewStringUTF(appChannel);
-                        env->CallObjectMethod(objAgentConfig, mSetAppChannel, strAppChannel);
+                        env->CallVoidMethod(objAgentConfig, mSetAppChannel, strAppChannel);
                         
                         jmethodID mSetUserInfo = env->GetMethodID(agentConfig, "setUserInfo", "(Ljava/lang/String;)V");
                         jstring strUserInfo = env->NewStringUTF(userInfo);
-                        env->CallObjectMethod(objAgentConfig, mSetUserInfo, strUserInfo);
+                        env->CallVoidMethod(objAgentConfig, mSetUserInfo, strUserInfo);
                         
                         jmethodID mSetDebug = env->GetMethodID(agentConfig, "setDebug", "(Z)V");
-                        env->CallObjectMethod(objAgentConfig, mSetDebug, isDebug);
+                        env->CallVoidMethod(objAgentConfig, mSetDebug, isDebug);
                         
                         jmethodID mSetAppLogPermission = env->GetMethodID(agentConfig, "setAppLogPermission", "(Z)V");
-                        env->CallObjectMethod(objAgentConfig, mSetAppLogPermission, lPer);
+                        env->CallVoidMethod(objAgentConfig, mSetAppLogPermission, lPer);
                         
                         jmethodID mSetAppActPermission = env->GetMethodID(agentConfig, "setAppActPermission", "(Z)V");
-                        env->CallObjectMethod(objAgentConfig, mSetAppActPermission, aPer);
+                        env->CallVoidMethod(objAgentConfig, mSetAppActPermission, aPer);
                         
                         jmethodID mSetCollectNDKCrash = env->GetMethodID(agentConfig, "setCollectNDKCrash", "(Z)V");
-                        env->CallObjectMethod(objAgentConfig, mSetCollectNDKCrash, isNCh);
-                        
-                        jmethodID mSetOpenAPM = env->GetMethodID(agentConfig, "setOpenAPM", "(Z)V");
-                        env->CallObjectMethod(objAgentConfig, mSetOpenAPM, isAPM);
+                        env->CallVoidMethod(objAgentConfig, mSetCollectNDKCrash, isNCh);
                         
                         jmethodID mSetOpenCrash = env->GetMethodID(agentConfig, "setOpenCrash", "(Z)V");
-                        env->CallObjectMethod(objAgentConfig, mSetOpenCrash, isCh);
+                        env->CallVoidMethod(objAgentConfig, mSetOpenCrash, isCh);
                         
                         jmethodID mSetOpenEx = env->GetMethodID(agentConfig, "setOpenEx", "(Z)V");
-                        env->CallObjectMethod(objAgentConfig, mSetOpenEx, isEx);
+                        env->CallVoidMethod(objAgentConfig, mSetOpenEx, isEx);
                         
                         jmethodID mSetReportOnBack = env->GetMethodID(agentConfig, "setReportOnBack", "(Z)V");
-                        env->CallObjectMethod(objAgentConfig, mSetReportOnBack, isRWifi);
+                        env->CallVoidMethod(objAgentConfig, mSetReportOnBack, isRWifi);
                         
                         jmethodID mReportOnlyWifi = env->GetMethodID(agentConfig, "setReportOnlyWifi", "(Z)V");
-                        env->CallObjectMethod(objAgentConfig, mReportOnlyWifi, isRBack);
+                        env->CallVoidMethod(objAgentConfig, mReportOnlyWifi, isRBack);
                         
-                        jmethodID mNetworkMoniter = env->GetMethodID(agentConfig, "setOpenNetworkMonitor", "(Z)V");
-                        env->CallObjectMethod(objAgentConfig, mNetworkMoniter, isMoniter);
-                        
-                        env->CallStaticObjectMethod(agent, mInit, objAgentConfig);
+                        env->CallStaticVoidMethod(agent, mInit, objAgentConfig);
                     }else{
                         LOGD("Could not find TestinAgentConfig object!");
                         return;
@@ -190,72 +228,6 @@ void TestinAgentHelper::initTestinAgent(const char* appkey, const char* channel)
     appKey = appkey;
     appChannel = channel;
     initTestinAgent();
-}
-
-void TestinAgentHelper::reportURLRequest(const char* url, const char* method, const char* contentType, long latency, long bytesRecv, long bytesSend, int statusCode) {
-    if (_initialed) {
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-        JavaVM* jvm = cocos2d::JniHelper::getJavaVM();
-        JNIEnv* env = NULL;
-        jvm->GetEnv((void**)&env, JNI_VERSION_1_4);
-        
-        if (NULL == jvm || NULL == env) {
-            LOGE("Could not complete opertion because JavaVM or JNIEnv is null!");
-            return;
-        }
-        jvm->AttachCurrentThread(&env, 0);
-        
-        //will throw ClassNotFoundException if Testin crash sdk is not included
-        jclass clz = env->FindClass(AGENT_CLASS);
-        //will throw NoSuchMethodException if Testin crash sdk is not included
-        jmethodID jmethod = env->GetStaticMethodID(clz, AGENT_METHOD_REPORTURL, AGENT_METHOD_REPORTURL_PARAMETER);
-        
-        jstring strParam1 = env->NewStringUTF(url);
-        jstring strParam2 = env->NewStringUTF(method);
-        jstring strParam3 = env->NewStringUTF(contentType);
-        env->CallStaticVoidMethod(clz, jmethod, strParam1, strParam2, strParam3, latency, bytesRecv, bytesSend, statusCode);
-#elif (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-        /**
-         *  上传HTTP请求信息
-         *
-         *  @param url         请求地址
-         *  @param method      请求方法
-         *  @param contentType 请求协议类型
-         *  @param latency     请求耗时
-         *  @param bytesRecv   接收数据的字节数
-         *  @param bytesSend   发送数据的字节数
-         *  @param statusCode  响应状态码
-         *
-         *  @return 成功返回YES，其他返回NO
-         */
-        //+ (BOOL)reportURL:(nonnull NSString*)url
-    //method:(nonnull NSString*)method
-    //contentType:(nonnull NSString*)contentType
-    //latency:(NSTimeInterval)latency
-    //bytesRecv:(NSInteger)bytesRecv
-    //bytesSend:(NSInteger)bytesSend
-    //statusCode:(NSInteger)statusCode;
-        NSString *ocurl = [NSString stringWithUTF8String:url];
-        NSString *ocmethod = [NSString stringWithUTF8String:method];
-        NSString *occontentType = [NSString stringWithUTF8String:contentType];
-        NSTimeInterval oclatency = (NSTimeInterval)latency;
-        NSInteger ocbytesRecv = (NSInteger)bytesRecv;
-        NSInteger ocbytesSend = (NSInteger)bytesSend;
-        NSInteger ocstatusCode = (NSInteger)statusCode;
-        
-        [TestinAgent reportURL:ocurl
-                        method:ocmethod
-                        contentType:occontentType
-                        latency:oclatency
-                        bytesRecv:ocbytesRecv
-                        bytesSend:ocbytesSend
-                        statusCode:ocstatusCode];
-#endif
-    }else{
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-        LOGE("Please init TestinAgent first!!!");
-#endif
-    }
 }
 
 void TestinAgentHelper::reportException(int type, const char* reason, const char* traceback) {

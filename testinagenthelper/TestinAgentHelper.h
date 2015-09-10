@@ -28,8 +28,6 @@ public:
     static void setUserInfo( const char* userInfo );
     
     static void leaveBreadcrumb( const char* breadcrumb );
-    
-    static void reportURLRequest(const char* url, const char* method, const char* contentType, long latency, long bytesRecv, long bytesSend, int statusCode);
 };
 
 #endif  /* __TESTIN_AGENT_HELPER_H__ */
